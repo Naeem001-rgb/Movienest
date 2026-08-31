@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Movie Nest</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%23667eea;stop-opacity:1' /><stop offset='100%' style='stop-color:%23764ba2;stop-opacity:1' /></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23grad)'/><text x='50' y='65' font-family='Arial' font-size='50' text-anchor='middle' fill='white'>🎬</text></svg>"
+        type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Reduce navbar width */
+        .header .container {
+            max-width: 1000px;
+        }
+
+
+
+        /* Main Content */
+        .main-content {
+            padding: 4rem 0;
+        }
+
+        .contact-hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            color: white;
+        }
+
+        .contact-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .contact-hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .contact-info {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            color: white;
+        }
+
+        .contact-info h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .contact-info p {
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .contact-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-method:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .contact-method i {
+            font-size: 1.5rem;
+            width: 40px;
+            text-align: center;
+            color: #ffd700;
+        }
+
+        .contact-method-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .contact-method-info p {
+            margin: 0;
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-form h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #fff;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            color: white;
+            margin-bottom: 4rem;
+        }
+
+        .faq-section h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .contact-section {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .contact-info,
+            .contact-form,
+            .faq-section {
+                padding: 2rem;
+            }
+
+
+        }
+
+        @media (max-width: 480px) {
+            .contact-hero h1 {
+                font-size: 2rem;
+            }
+
+            .contact-info,
+            .contact-form,
+            .faq-section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-brand">
+                <div class="logo">
+                    <span class="logo-icon">🎬</span>
+                    <span class="logo-text">Movie Nest</span>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link">HOME</a>
+                <a href="index.html#movies" class="nav-link">MOVIES</a>
+                <a href="index.html#tv" class="nav-link">TV SHOWS</a>
+
+                <div class="nav-dropdown">
+                    <a href="index.html" class="nav-link">GENRE</a>
+                    <div class="dropdown-menu genre-dropdown">
+                        <div class="dropdown-grid">
+                            <a href="index.html#action">Action</a>
+                            <a href="index.html">Adventure</a>
+                            <a href="index.html">Animation</a>
+                            <a href="index.html">Biography</a>
+                            <a href="index.html#comedy">Comedy</a>
+                            <a href="index.html">Crime</a>
+                            <a href="index.html">Documentary</a>
+                            <a href="index.html#drama">Drama</a>
+                            <a href="index.html">Family</a>
+                            <a href="index.html">Fantasy</a>
+                            <a href="index.html">History</a>
+                            <a href="index.html#horror">Horror</a>
+                            <a href="index.html">Kids</a>
+                            <a href="index.html">Music</a>
+                            <a href="index.html">Mystery</a>
+                            <a href="index.html">News</a>
+                            <a href="index.html">Reality</a>
+                            <a href="index.html">Romance</a>
+                            <a href="index.html#sci-fi">Sci-Fi & Fantasy</a>
+                            <a href="index.html">Soap</a>
+                            <a href="index.html">Talk</a>
+                            <a href="index.html">Thriller</a>
+                            <a href="index.html">TV Movie</a>
+                            <a href="index.html">War</a>
+                            <a href="index.html">Western</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-dropdown">
+                    <a href="index.html" class="nav-link">COUNTRIES</a>
+                    <div class="dropdown-menu countries-dropdown">
+                        <div class="dropdown-grid">
+                            <a href="index.html">Argentina</a>
+                            <a href="index.html">Australia</a>
+                            <a href="index.html">Austria</a>
+                            <a href="index.html">Belgium</a>
+                            <a href="index.html">Brazil</a>
+                            <a href="index.html">Canada</a>
+                            <a href="index.html">China</a>
+                            <a href="index.html">Czech Republic</a>
+                            <a href="index.html">Denmark</a>
+                            <a href="index.html">Finland</a>
+                            <a href="index.html">France</a>
+                            <a href="index.html">Germany</a>
+                            <a href="index.html">Hong Kong</a>
+                            <a href="index.html">Hungary</a>
+                            <a href="index.html">India</a>
+                            <a href="index.html">Ireland</a>
+                            <a href="index.html">Israel</a>
+                            <a href="index.html">Italy</a>
+                            <a href="index.html">Japan</a>
+                            <a href="index.html">Luxembourg</a>
+                            <a href="index.html">Mexico</a>
+                            <a href="index.html">Netherlands</a>
+                            <a href="index.html">New Zealand</a>
+                            <a href="index.html">Norway</a>
+                            <a href="index.html">Poland</a>
+                            <a href="index.html">Romania</a>
+                            <a href="index.html">Russia</a>
+                            <a href="index.html">South Africa</a>
+                            <a href="index.html">South Korea</a>
+                            <a href="index.html">Spain</a>
+                            <a href="index.html">Sweden</a>
+                            <a href="index.html">Switzerland</a>
+                            <a href="index.html">Taiwan</a>
+                            <a href="index.html">Thailand</a>
+                            <a href="index.html">United Kingdom</a>
+                            <a href="index.html">United States</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Hero Section -->
+            <div class="contact-hero">
+                <h1>Get in Touch</h1>
+                <p>Have questions, suggestions, or need support? We'd love to hear from you. Our team is here to help
+                    make your Movie Nest experience amazing.</p>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="contact-section">
+                <!-- Contact Info -->
+                <div class="contact-info">
+                    <h2>Let's Connect</h2>
+                    <p>Choose the best way to reach us. We're committed to providing you with quick and helpful
+                        responses.</p>
+
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <i class="fas fa-envelope"></i>
+                            <div class="contact-method-info">
+                                <h3>Email Support</h3>
+                                <p>support@movienest.com</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <i class="fas fa-clock"></i>
+                            <div class="contact-method-info">
+                                <h3>Response Time</h3>
+                                <p>2-5 business days</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <i class="fas fa-shield-alt"></i>
+                            <div class="contact-method-info">
+                                <h3>DMCA Reports</h3>
+                                <p>Copyright infringement issues</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <i class="fas fa-bug"></i>
+                            <div class="contact-method-info">
+                                <h3>Bug Reports</h3>
+                                <p>Technical issues & improvements</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="contact-form">
+                    <h2>Send us a Message</h2>
+                    <form id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name *</label>
+                                <input type="text" id="firstName" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name *</label>
+                                <input type="text" id="lastName" name="lastName" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Select a topic</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="technical">Technical Support</option>
+                                <option value="bug">Bug Report</option>
+                                <option value="feature">Feature Request</option>
+                                <option value="dmca">DMCA / Copyright</option>
+                                <option value="account">Account Issues</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message"
+                                placeholder="Please describe your inquiry in detail..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="faq-section">
+                <h2>Frequently Asked Questions</h2>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How do I report copyright infringement?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Please visit our DMCA page for detailed instructions on how to submit a copyright infringement
+                        notification. You can also email us directly at support@movienest.com with "DMCA" in the subject
+                        line.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How long does it take to get a response?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        We typically respond to all inquiries within 2-5 business days. For urgent matters like DMCA
+                        reports or security issues, we aim to respond within 24-48 hours.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I suggest new features or improvements?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Absolutely! We love hearing from our users. Please use the contact form above and select
+                        "Feature Request" as your subject. We review all suggestions and consider them for future
+                        updates.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Is my personal information secure?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Yes, we take your privacy seriously. All information submitted through this contact form is
+                        encrypted and used solely for responding to your inquiry. We never share your personal
+                        information with third parties.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <div class="logo">
+                            <span class="logo-icon">🎬</span>
+                            <span class="logo-text">Movie Nest</span>
+                        </div>
+                        <p class="footer-description">
+                            Your ultimate destination for movies and TV shows. Stream the latest releases and timeless
+                            classics in HD quality.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3 class="footer-title">Browse</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html#movies">Movies</a></li>
+                        <li><a href="index.html#tv">TV Shows</a></li>
+                        <li><a href="index.html#trending">Trending</a></li>
+                        <li><a href="index.html#new">New Releases</a></li>
+                        <li><a href="index.html#top">Top Rated</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3 class="footer-title">Genres</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html#action">Action</a></li>
+                        <li><a href="index.html#comedy">Comedy</a></li>
+                        <li><a href="index.html#drama">Drama</a></li>
+                        <li><a href="index.html#horror">Horror</a></li>
+                        <li><a href="index.html#sci-fi">Sci-Fi</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3 class="footer-title">Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="Terms of Service.html">Terms of Service</a></li>
+                        <li><a href="DMCA.html">DMCA</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3 class="footer-title">Stay Updated</h3>
+                    <p class="newsletter-text">Subscribe to get notified about new releases and updates.</p>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Enter your email" class="newsletter-input">
+                        <button class="newsletter-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <div class="app-downloads">
+                        <a href="#" class="app-link">
+                            <i class="fab fa-apple"></i>
+                            <span>Download for iOS</span>
+                        </a>
+                        <a href="#" class="app-link">
+                            <i class="fab fa-google-play"></i>
+                            <span>Download for Android</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p class="copyright">
+                        © 2024 Movie Nest. All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Form submission handling
+        document.getElementById('contactForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Get form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+
+            // Simple validation
+            if (!data.firstName || !data.lastName || !data.email || !data.subject || !data.message) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            // Simulate form submission
+            const submitBtn = document.querySelector('.submit-btn');
+            const originalText = submitBtn.innerHTML;
+
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                alert('Thank you for your message! We\'ll get back to you within 2-5 business days.');
+                this.reset();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        });
+
+        // FAQ toggle functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function () {
+                const faqItem = this.parentElement;
+                const answer = faqItem.querySelector('.faq-answer');
+                const icon = this.querySelector('i');
+
+                if (answer.style.display === 'block') {
+                    answer.style.display = 'none';
+                    icon.style.transform = 'rotate(0deg)';
+                } else {
+                    // Close all other FAQ items
+                    document.querySelectorAll('.faq-answer').forEach(a => a.style.display = 'none');
+                    document.querySelectorAll('.faq-question i').forEach(i => i.style.transform = 'rotate(0deg)');
+
+                    // Open clicked item
+                    answer.style.display = 'block';
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>
