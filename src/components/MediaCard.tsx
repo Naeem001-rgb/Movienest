@@ -1,15 +1,21 @@
 import Link from "next/link";
-import { titleOf, yearOf, hrefFor } from "@/lib/servers";
+import { titleOf, yearOf, hrefFor, watchHrefFor } from "@/lib/servers";
 import { ratingPercent, ratingColor } from "@/lib/rating";
 import { POSTER_BASE } from "@/lib/tmdb";
 import type { MediaItem } from "@/lib/types";
 
-export default function MediaCard({ item }: { item: MediaItem }) {
+export default function MediaCard({
+  item,
+  linkToWatch = false,
+}: {
+  item: MediaItem;
+  linkToWatch?: boolean;
+}) {
   const percent = ratingPercent(item.vote_average);
 
   return (
     <Link
-      href={hrefFor(item)}
+      href={linkToWatch ? watchHrefFor(item) : hrefFor(item)}
       className="group block w-full text-left"
       aria-label={titleOf(item)}
     >
