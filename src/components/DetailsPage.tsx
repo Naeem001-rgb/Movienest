@@ -1,22 +1,16 @@
 import Link from "next/link";
 import { titleOf, yearOf } from "@/lib/servers";
 import { ratingPercent, ratingColor } from "@/lib/rating";
-import { tmdbFetch, POSTER_BASE, BACKDROP_BASE } from "@/lib/tmdb";
+import { POSTER_BASE, BACKDROP_BASE } from "@/lib/tmdb";
 import type { MediaDetails, MediaType } from "@/lib/types";
 
-export default async function DetailsPage({
-  id,
+export default function DetailsPage({
+  details,
   type,
 }: {
-  id: string;
+  details: MediaDetails;
   type: MediaType;
 }) {
-  const details = await tmdbFetch<MediaDetails>(
-    `/${type}/${id}`,
-    { append_to_response: "credits" }
-  );
-  if (!details.id) throw new Error("Not found");
-
   const title = titleOf(details);
   const year = yearOf(details);
   const genreNames = details.genres?.map((g) => g.name).join(", ") || "N/A";

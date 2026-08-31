@@ -1,69 +1,32 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import Player from "@/components/Player";
 import EpisodeList from "@/components/EpisodeList";
 import SeasonPicker from "@/components/SeasonPicker";
 import RelatedGrid from "@/components/RelatedGrid";
-import { tmdbFetch } from "@/lib/tmdb";
 import { titleOf, yearOf } from "@/lib/servers";
 import { ratingPercent, ratingColor } from "@/lib/rating";
 import type { EpisodeItem, MediaDetails, MediaType } from "@/lib/types";
 
-export default async function WatchPage({
-  id,
+export default function WatchPage({
+  details,
   type,
-  searchParams = {},
+  season,
+  episode,
+  seasons,
+  episodes,
 }: {
-  id: string;
+  details: MediaDetails;
   type: MediaType;
-  searchParams?: { season?: string; episode?: string };
+  season?: number;
+  episode?: number;
+  seasons?: { season_number: number; name: string }[];
+  episodes?: EpisodeItem[];
 }) {
-  const details = await tmdbFetch<MediaDetails>(`/${type}/${id}`, {
-    append_to_response: "credits",
-  });
-  if (!details.id) notFound();
-
   const title = titleOf(details);
   const genreNames = details.genres?.map((g) => g.name).join(", ");
   const cast = details.credits?.cast?.slice(0, 5).map((a) => a.name).join(", ");
-  const shareUrl = `https://movie-nest.vercel.app/watch/${type}/${id}`;
+  const shareUrl = `https://movie-nest-application.vercel.app/watch/${type}/${details.id}`;
   const shareText = encodeURIComponent(`Watching ${title} on Movie Nest!`);
-
-  let season: number | undefined;
-  let episode: number | undefined;
-  let seasons: { season_number: number; name: string }[] = [];
-  let episodes: EpisodeItem[] = [];
-
-  if (type === "tv") {
-    // Seasons sorted by number; default to season 1 or the first available.
-    seasons = [...(details.seasons ?? [])]
-      .filter((s) => s.season_number > 0 || (details.seasons ?? []).length === 1)
-      .sort((a, b) => a.season_number - b.season_number);
-
-    if (seasons.length > 0) {
-      const requestedSeason = parseInt(searchParams.season ?? "", 10);
-      const hasSeason1 = seasons.some((s) => s.season_number === 1);
-      const fallbackSeason = hasSeason1 ? 1 : seasons[0].season_number;
-      season = seasons.some((s) => s.season_number === requestedSeason)
-        ? requestedSeason
-        : fallbackSeason;
-
-      // Episode list is always live.
-      const seasonData = await tmdbFetch<{ episodes: EpisodeItem[] }>(
-        `/tv/${id}/season/${season}`,
-        {},
-        0
-      );
-      episodes = seasonData.episodes ?? [];
-
-      const requestedEpisode = parseInt(searchParams.episode ?? "", 10);
-      const maxEpisode = episodes.length > 0 ? episodes[episodes.length - 1].episode_number : 0;
-      episode =
-        Number.isInteger(requestedEpisode) && requestedEpisode >= 1 && requestedEpisode <= maxEpisode
-          ? requestedEpisode
-          : Math.min(1, maxEpisode) || 1;
-    }
-  }
 
   return (
     <div className="pb-8">
@@ -86,7 +49,7 @@ export default async function WatchPage({
         </div>
 
         {/* TV season + episodes */}
-        {type === "tv" && seasons.length > 0 ? (
+        {type === "tv" && seasons && seasons.length > 0 ? (
           <section className="mt-8">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-xl font-bold text-text">Episodes</h2>
@@ -95,7 +58,7 @@ export default async function WatchPage({
             <EpisodeList
               showId={details.id}
               season={season!}
-              episodes={episodes}
+              episodes={episodes ?? []}
               currentEpisode={episode!}
             />
           </section>
