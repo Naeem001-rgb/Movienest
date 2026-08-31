@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch Movie - Movie Nest</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%23667eea;stop-opacity:1' /><stop offset='100%' style='stop-color:%23764ba2;stop-opacity:1' /></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23grad)'/><text x='50' y='65' font-family='Arial' font-size='50' text-anchor='middle' fill='white'>🎬</text></svg>"
+        type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="watch.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+
+    </script>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-brand">
+                <div class="logo">
+                    <span class="logo-icon">🎬</span>
+                    <span class="logo-text">Movie Nest</span>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link">HOME</a>
+                <a href="index.html#movies" class="nav-link">MOVIES</a>
+                <a href="index.html#tv" class="nav-link">TV SHOWS</a>
+
+                <div class="nav-dropdown">
+                    <a href="index.html" class="nav-link">GENRE</a>
+                </div>
+
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link" data-category="countries">COUNTRIES</a>
+                    <div class="dropdown-menu countries-dropdown">
+                        <div class="dropdown-grid">
+                            <a href="#" data-country="AR">Argentina</a>
+                            <a href="#" data-country="AU">Australia</a>
+                            <a href="#" data-country="AT">Austria</a>
+                            <a href="#" data-country="BE">Belgium</a>
+                            <a href="#" data-country="BR">Brazil</a>
+                            <a href="#" data-country="CA">Canada</a>
+                            <a href="#" data-country="CN">China</a>
+                            <a href="#" data-country="CZ">Czech Republic</a>
+                            <a href="#" data-country="DK">Denmark</a>
+                            <a href="#" data-country="FI">Finland</a>
+                            <a href="#" data-country="FR">France</a>
+                            <a href="#" data-country="DE">Germany</a>
+                            <a href="#" data-country="HK">Hong Kong</a>
+                            <a href="#" data-country="HU">Hungary</a>
+                            <a href="#" data-country="IN">India</a>
+                            <a href="#" data-country="IE">Ireland</a>
+                            <a href="#" data-country="IL">Israel</a>
+                            <a href="#" data-country="IT">Italy</a>
+                            <a href="#" data-country="JP">Japan</a>
+                            <a href="#" data-country="LU">Luxembourg</a>
+                            <a href="#" data-country="MX">Mexico</a>
+                            <a href="#" data-country="NL">Netherlands</a>
+                            <a href="#" data-country="NZ">New Zealand</a>
+                            <a href="#" data-country="NO">Norway</a>
+                            <a href="#" data-country="PL">Poland</a>
+                            <a href="#" data-country="PT">Portugal</a>
+                            <a href="#" data-country="RO">Romania</a>
+                            <a href="#" data-country="RU">Russia</a>
+                            <a href="#" data-country="ZA">South Africa</a>
+                            <a href="#" data-country="KR">South Korea</a>
+                            <a href="#" data-country="ES">Spain</a>
+                            <a href="#" data-country="SE">Sweden</a>
+                            <a href="#" data-country="CH">Switzerland</a>
+                            <a href="#" data-country="TW">Taiwan</a>
+                            <a href="#" data-country="TH">Thailand</a>
+                            <a href="#" data-country="GB">United Kingdom</a>
+                            <a href="#" data-country="US">United States</a>
+                        </div>
+                    </div>
+                </div>
+
+
+            </nav>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="container">
+            <a href="index.html">Home</a>
+            <span>/</span>
+            <a href="#" id="breadcrumbCategory">Movies</a>
+            <span>/</span>
+            <span id="breadcrumbTitle">Movie Title</span>
+        </div>
+    </div>
+
+
+
+    <!-- Video Player Section -->
+    <section class="video-player-section">
+        <div class="container">
+            <div class="video-player-container">
+                <div class="video-embed" id="videoEmbed">
+                    <!-- Video player will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Server Message -->
+            <div class="server-message">
+                <p>If current server doesn't work please try other servers below.</p>
+            </div>
+
+            <!-- Server Selection (Minimal) -->
+            <div class="server-selection">
+                <div class="server-buttons">
+                    <button class="server-btn" data-server="videasy">
+                        <i class="fas fa-play"></i>
+                        VidEasy
+                    </button>
+                    <button class="server-btn" data-server="vidfast">
+                        <i class="fas fa-play"></i>
+                        VidFast
+                    </button>
+                    <button class="server-btn active" data-server="vidsrc">
+                        <i class="fas fa-play"></i>
+                        VidSrc
+                    </button>
+                </div>
+            </div>
+
+            <!-- Episode Selection (Hidden by default, shown for TV shows) -->
+            <div class="episode-selection-container" id="episodeSelectionContainer" style="display: none;">
+                <div class="season-selector-wrapper">
+                    <select id="seasonSelect" class="season-select">
+                        <!-- Seasons will be populated here -->
+                    </select>
+                </div>
+                <div class="episodes-grid" id="episodesGrid">
+                    <!-- Episodes will be populated here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Movie Info Section -->
+    <section class="movie-info-section">
+        <div class="container">
+            <div class="movie-info-card">
+                <div class="movie-poster-container">
+                    <img id="moviePoster" src="" alt="Movie Poster" class="movie-poster-watch">
+                </div>
+
+                <div class="movie-info-details">
+                    <div class="movie-badges">
+                        <span class="badge streaming-badge">Streaming</span>
+                        <span class="badge year-badge" id="movieYearBadge">2024</span>
+                    </div>
+
+                    <h1 class="movie-title-watch" id="movieTitle">Movie Title</h1>
+
+                    <div class="movie-description">
+                        <p id="movieOverview">Movie description will be loaded here...</p>
+                    </div>
+
+                    <div class="movie-additional-info">
+                        <div class="info-row">
+                            <span class="info-label">Released:</span>
+                            <span id="movieReleaseDate">2024-01-01</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Genre:</span>
+                            <span id="movieGenres">Action, Adventure, Sci-Fi</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Casts:</span>
+                            <span id="movieCast">Loading cast...</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Country:</span>
+                            <span id="movieCountry">United States of America</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Production:</span>
+                            <span id="movieProduction">Loading production...</span>
+                        </div>
+                    </div>
+
+                    <div class="social-share">
+                        <div class="share-buttons">
+                            <button class="share-btn facebook"><i class="fab fa-facebook-f"></i></button>
+                            <button class="share-btn twitter"><i class="fab fa-twitter"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Movies Section -->
+    <section class="related-movies-section">
+        <div class="container">
+            <h2 class="section-title">You may also like</h2>
+            <div class="related-movies-grid" id="relatedMoviesGrid">
+                <!-- Related movies will be populated here -->
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Loading Spinner -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <div class="logo">
+                            <span class="logo-icon">🎬</span>
+                            <span class="logo-text">Movie Nest</span>
+                        </div>
+                        <p class="footer-description">
+                            Your ultimate destination for movies and TV shows. Stream the latest releases and timeless
+                            classics in HD quality.
+                        </p>
+
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3 class="footer-title">Browse</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#movies">Movies</a></li>
+                        <li><a href="index.html#tv">TV Shows</a></li>
+                        <li><a href="index.html#trending">Trending</a></li>
+                        <li><a href="#">Top Rated</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3 class="footer-title">Genres</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Comedy</a></li>
+                        <li><a href="#">Drama</a></li>
+                        <li><a href="#">Horror</a></li>
+                        <li><a href="#">Sci-Fi</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3 class="footer-title">Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">DMCA</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3 class="footer-title">Stay Updated</h3>
+                    <p class="newsletter-text">Subscribe to get notified about new releases and updates.</p>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Enter your email" class="newsletter-input">
+                        <button class="newsletter-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <div class="app-downloads">
+                        <a href="#" class="app-link">
+                            <i class="fab fa-apple"></i>
+                            <span>Download for iOS</span>
+                        </a>
+                        <a href="#" class="app-link">
+                            <i class="fab fa-google-play"></i>
+                            <span>Download for Android</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p class="copyright">
+                        © 2024 Movie Nest. All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="watch.js"></script>
+</body>
+
+</html>

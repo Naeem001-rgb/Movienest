@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sitemap - Movie Nest</title>
+    <meta name="description" content="Complete sitemap of Movie Nest - Find all pages, movies, TV shows, and content easily.">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%23667eea;stop-opacity:1' /><stop offset='100%' style='stop-color:%23764ba2;stop-opacity:1' /></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23grad)'/><text x='50' y='65' font-family='Arial' font-size='50' text-anchor='middle' fill='white'>🎬</text></svg>"
+        type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Reduce navbar width */
+        .header .container {
+            max-width: 600px;
+        }
+        
+        /* Override main site styles for document pages */
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .page-content {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .page-content .container {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: none;
+        }
+
+        .page-content h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #9b59b6;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5rem;
+        }
+
+        .page-content h2 {
+            color: #34495e;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-left: 4px solid #9b59b6;
+            padding-left: 15px;
+            font-size: 1.5rem;
+        }
+
+        .page-content h3 {
+            color: #2c3e50;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .page-content p {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1rem;
+        }
+
+        .sitemap-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .sitemap-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid #9b59b6;
+            transition: all 0.3s ease;
+        }
+
+        .sitemap-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .sitemap-section h3 {
+            color: #9b59b6;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sitemap-section i {
+            font-size: 1.2rem;
+        }
+
+        .sitemap-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sitemap-links li {
+            margin-bottom: 8px;
+        }
+
+        .sitemap-links a {
+            color: #2c3e50;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: block;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .sitemap-links a:hover {
+            background-color: #e8f4fd;
+            border-left-color: #3498db;
+            transform: translateX(5px);
+        }
+
+        .main-pages {
+            border-left-color: #3498db;
+        }
+
+        .main-pages h3 {
+            color: #3498db;
+        }
+
+        .main-pages .sitemap-links a:hover {
+            border-left-color: #3498db;
+        }
+
+        .content-pages {
+            border-left-color: #e74c3c;
+        }
+
+        .content-pages h3 {
+            color: #e74c3c;
+        }
+
+        .content-pages .sitemap-links a:hover {
+            background-color: #fdf2f2;
+            border-left-color: #e74c3c;
+        }
+
+        .legal-pages {
+            border-left-color: #27ae60;
+        }
+
+        .legal-pages h3 {
+            color: #27ae60;
+        }
+
+        .legal-pages .sitemap-links a:hover {
+            background-color: #f0f9f4;
+            border-left-color: #27ae60;
+        }
+
+        .genre-pages {
+            border-left-color: #f39c12;
+        }
+
+        .genre-pages h3 {
+            color: #f39c12;
+        }
+
+        .genre-pages .sitemap-links a:hover {
+            background-color: #fef9e7;
+            border-left-color: #f39c12;
+        }
+
+        .intro-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .intro-section h2 {
+            color: white;
+            border: none;
+            padding: 0;
+            margin-bottom: 15px;
+        }
+
+        .intro-section p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+        }
+
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: #9b59b6;
+            transform: translateY(-2px);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #9b59b6;
+            display: block;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        /* Reset any conflicting styles from main site */
+        .page-content * {
+            box-sizing: border-box;
+        }
+        
+        .page-content ul {
+            list-style-type: disc;
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .page-content strong {
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .sitemap-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .page-content .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-brand">
+                <div class="logo">
+                    <span class="logo-icon">🎬</span>
+                    <span class="logo-text">Movie Nest</span>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link">HOME</a>
+                <a href="index.html#movies" class="nav-link">MOVIES</a>
+                <a href="index.html#tv" class="nav-link">TV SHOWS</a>
+
+                <div class="nav-dropdown">
+                    <a href="index.html" class="nav-link">GENRE</a>
+                    <div class="dropdown-menu genre-dropdown">
+                        <div class="dropdown-grid">
+                            <a href="index.html#action">Action</a>
+                            <a href="index.html">Adventure</a>
+                            <a href="index.html">Animation</a>
+                            <a href="index.html">Biography</a>
+                            <a href="index.html#comedy">Comedy</a>
+                            <a href="index.html">Crime</a>
+                            <a href="index.html">Documentary</a>
+                            <a href="index.html#drama">Drama</a>
+                            <a href="index.html">Family</a>
+                            <a href="index.html">Fantasy</a>
+                            <a href="index.html">History</a>
+                            <a href="index.html#horror">Horror</a>
+                            <a href="index.html">Kids</a>
+                            <a href="index.html">Music</a>
+                            <a href="index.html">Mystery</a>
+                            <a href="index.html">News</a>
+                            <a href="index.html">Reality</a>
+                            <a href="index.html">Romance</a>
+                            <a href="index.html#sci-fi">Sci-Fi & Fantasy</a>
+                            <a href="index.html">Soap</a>
+                            <a href="index.html">Talk</a>
+                            <a href="index.html">Thriller</a>
+                            <a href="index.html">TV Movie</a>
+                            <a href="index.html">War</a>
+                            <a href="index.html">Western</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-dropdown">
+                    <a href="index.html" class="nav-link">COUNTRIES</a>
+                    <div class="dropdown-menu countries-dropdown">
+                        <div class="dropdown-grid">
+                            <a href="index.html">Argentina</a>
+                            <a href="index.html">Australia</a>
+                            <a href="index.html">Austria</a>
+                            <a href="index.html">Belgium</a>
+                            <a href="index.html">Brazil</a>
+                            <a href="index.html">Canada</a>
+                            <a href="index.html">China</a>
+                            <a href="index.html">Czech Republic</a>
+                            <a href="index.html">Denmark</a>
+                            <a href="index.html">Finland</a>
+                            <a href="index.html">France</a>
+                            <a href="index.html">Germany</a>
+                            <a href="index.html">Hong Kong</a>
+                            <a href="index.html">Hungary</a>
+                            <a href="index.html">India</a>
+                            <a href="index.html">Ireland</a>
+                            <a href="index.html">Israel</a>
+                            <a href="index.html">Italy</a>
+                            <a href="index.html">Japan</a>
+                            <a href="index.html">Luxembourg</a>
+                            <a href="index.html">Mexico</a>
+                            <a href="index.html">Netherlands</a>
+                            <a href="index.html">New Zealand</a>
+                            <a href="index.html">Norway</a>
+                            <a href="index.html">Poland</a>
+                            <a href="index.html">Romania</a>
+                            <a href="index.html">Russia</a>
+                            <a href="index.html">South Africa</a>
+                            <a href="index.html">South Korea</a>
+                            <a href="index.html">Spain</a>
+                            <a href="index.html">Sweden</a>
+                            <a href="index.html">Switzerland</a>
+                            <a href="index.html">Taiwan</a>
+                            <a href="index.html">Thailand</a>
+                            <a href="index.html">United Kingdom</a>
+                            <a href="index.html">United States</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-content">
+        <div class="container">
+            <h1>Website Sitemap</h1>
+            
+            <div class="intro-section">
+                <h2>Welcome to Movie Nest Sitemap</h2>
+                <p>Find all pages, content, and features of Movie Nest easily. Navigate through our complete website structure and discover everything we have to offer.</p>
+            </div>
+
+            <div class="stats-section">
+                <div class="stat-card">
+                    <span class="stat-number">6</span>
+                    <div class="stat-label">Main Pages</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">25+</span>
+                    <div class="stat-label">Movie Genres</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">35+</span>
+                    <div class="stat-label">Countries</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">4</span>
+                    <div class="stat-label">Legal Pages</div>
+                </div>
+            </div>
+
+            <div class="sitemap-grid">
+                <!-- Main Pages -->
+                <div class="sitemap-section main-pages">
+                    <h3><i class="fas fa-home"></i> Main Pages</h3>
+                    <ul class="sitemap-links">
+                        <li><a href="index.html">Home - Movie Nest</a></li>
+                        <li><a href="index.html#movies">Movies Collection</a></li>
+                        <li><a href="index.html#tv">TV Shows Collection</a></li>
+                        <li><a href="index.html#trending">Trending Content</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="sitemap.html">Sitemap (Current Page)</a></li>
+                    </ul>
+                </div>
+
+                <!-- Content Pages -->
+                <div class="sitemap-section content-pages">
+                    <h3><i class="fas fa-film"></i> Content Categories</h3>
+                    <ul class="sitemap-links">
+                        <li><a href="index.html#movies">Popular Movies</a></li>
+                        <li><a href="index.html#tv">Latest TV Shows</a></li>
+                        <li><a href="index.html#trending">Trending Now</a></li>
+                        <li><a href="index.html#new">New Releases</a></li>
+                        <li><a href="index.html#top">Top Rated</a></li>
+                        <li><a href="movie.html">Movie Player</a></li>
+                        <li><a href="watch.html">Watch Page</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal Pages -->
+                <div class="sitemap-section legal-pages">
+                    <h3><i class="fas fa-gavel"></i> Legal & Support</h3>
+                    <ul class="sitemap-links">
+                        <li><a href="Terms of Service.html">Terms of Service</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="DMCA.html">DMCA Policy</a></li>
+                        <li><a href="contact.html">Contact Support</a></li>
+                    </ul>
+                </div>
+
+                <!-- Genre Pages -->
+                <div class="sitemap-section genre-pages">
+                    <h3><i class="fas fa-tags"></i> Movie Genres</h3>
+                    <ul class="sitemap-links">
+                        <li><a href="index.html#action">Action Movies</a></li>
+                        <li><a href="index.html#comedy">Comedy Movies</a></li>
+                        <li><a href="index.html#drama">Drama Movies</a></li>
+                        <li><a href="index.html#horror">Horror Movies</a></li>
+                        <li><a href="index.html#sci-fi">Sci-Fi & Fantasy</a></li>
+                        <li><a href="index.html">Adventure Movies</a></li>
+                        <li><a href="index.html">Animation Movies</a></li>
+                        <li><a href="index.html">Romance Movies</a></li>
+                        <li><a href="index.html">Thriller Movies</a></li>
+                        <li><a href="index.html">Crime Movies</a></li>
+                    </ul>
+                </div>
+
+                <!-- Countries -->
+                <div class="sitemap-section">
+                    <h3><i class="fas fa-globe"></i> Movies by Country</h3>
+                    <ul class="sitemap-links">
+                        <li><a href="index.html">United States Movies</a></li>
+                        <li><a href="index.html">United Kingdom Movies</a></li>
+                        <li><a href="index.html">India Movies (Bollywood)</a></li>
+                        <li><a href="index.html">Japan Movies</a></li>
+                        <li><a href="index.html">South Korea Movies</a></li>
+                        <li><a href="index.html">France Movies</a></li>
+                        <li><a href="index.html">Germany Movies</a></li>
+                        <li><a href="index.html">Canada Movies</a></li>
+                        <li><a href="index.html">Australia Movies</a></li>
+                        <li><a href="index.html">+ 25 More Countries</a></li>
+                    </ul>
+                </div>
+
+                <!-- Features -->
+                <div class="sitemap-section">
+                    <h3><i class="fas fa-star"></i> Features</h3>
+                    <ul class="sitemap-links">
+                        <li><a href="index.html">HD Quality Streaming</a></li>
+                        <li><a href="index.html">Search Movies & TV Shows</a></li>
+                        <li><a href="index.html">Filter by Genre</a></li>
+                        <li><a href="index.html">Filter by Country</a></li>
+                        <li><a href="index.html">Trending Content</a></li>
+                        <li><a href="index.html">New Releases</a></li>
+                        <li><a href="index.html">Top Rated Content</a></li>
+                        <li><a href="index.html">Mobile Responsive</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>About This Sitemap</h2>
+            <p>This sitemap provides a comprehensive overview of all pages and content available on Movie Nest. It's designed to help both users and search engines navigate our website efficiently.</p>
+
+            <h3>For Users:</h3>
+            <ul>
+                <li>Quickly find any page or content type</li>
+                <li>Discover new features and sections</li>
+                <li>Navigate easily through our website structure</li>
+                <li>Access legal and support pages</li>
+            </ul>
+
+            <h3>For Search Engines:</h3>
+            <ul>
+                <li>Complete website structure overview</li>
+                <li>All important pages indexed</li>
+                <li>Clear content categorization</li>
+                <li>Updated regularly with new content</li>
+            </ul>
+
+            <div class="intro-section" style="margin-top: 40px;">
+                <h2>Need Help?</h2>
+                <p>Can't find what you're looking for? Visit our <a href="contact.html" style="color: #ffd700; text-decoration: underline;">Contact Page</a> or use the search function on our homepage to find specific movies or TV shows.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <div class="logo">
+                            <span class="logo-icon">🎬</span>
+                            <span class="logo-text">Movie Nest</span>
+                        </div>
+                        <p class="footer-description">
+                            Your ultimate destination for movies and TV shows. Stream the latest releases and timeless
+                            classics in HD quality.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3 class="footer-title">Browse</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html#movies">Movies</a></li>
+                        <li><a href="index.html#tv">TV Shows</a></li>
+                        <li><a href="index.html#trending">Trending</a></li>
+                        <li><a href="index.html#new">New Releases</a></li>
+                        <li><a href="index.html#top">Top Rated</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3 class="footer-title">Genres</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html#action">Action</a></li>
+                        <li><a href="index.html#comedy">Comedy</a></li>
+                        <li><a href="index.html#drama">Drama</a></li>
+                        <li><a href="index.html#horror">Horror</a></li>
+                        <li><a href="index.html#sci-fi">Sci-Fi</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3 class="footer-title">Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="Terms of Service.html">Terms of Service</a></li>
+                        <li><a href="DMCA.html">DMCA</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3 class="footer-title">Stay Updated</h3>
+                    <p class="newsletter-text">Subscribe to get notified about new releases and updates.</p>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Enter your email" class="newsletter-input">
+                        <button class="newsletter-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <div class="app-downloads">
+                        <a href="#" class="app-link">
+                            <i class="fab fa-apple"></i>
+                            <span>Download for iOS</span>
+                        </a>
+                        <a href="#" class="app-link">
+                            <i class="fab fa-google-play"></i>
+                            <span>Download for Android</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p class="copyright">
+                        © 2024 Movie Nest. All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
