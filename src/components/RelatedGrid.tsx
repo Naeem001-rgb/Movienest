@@ -1,5 +1,5 @@
 import MediaGrid from "@/components/MediaGrid";
-import { tmdbFetch } from "@/lib/tmdb";
+import { tmdbFetch, isNotFound } from "@/lib/tmdb";
 import type { MediaItem, Paged, MediaType } from "@/lib/types";
 
 export default async function RelatedGrid({
@@ -11,12 +11,18 @@ export default async function RelatedGrid({
   type: MediaType;
   linkToWatch?: boolean;
 }) {
-  let data = await tmdbFetch<Paged<MediaItem>>(`/${type}/${id}/similar`);
+  let items: MediaItem[] = [];
 
-  // Fall back to popular when a title has no similar results.
-  let items = data.results.filter((i) => i.poster_path);
+  try {
+    const data = await tmdbFetch<Paged<MediaItem>>(`/${type}/${id}/similar`);
+    items = data.results.filter((i) => i.poster_path);
+  } catch (err) {
+    if (!isNotFound(err)) throw err;
+  }
+
+  // Fall back to popular when a title has no similar results (or none listed).
   if (items.length === 0) {
-    data = await tmdbFetch<Paged<MediaItem>>(`/${type}/popular`);
+    const data = await tmdbFetch<Paged<MediaItem>>(`/${type}/popular`);
     items = data.results.filter((i) => i.poster_path);
   }
 

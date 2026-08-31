@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import WatchPage from "@/components/WatchPage";
-import { tmdbFetch } from "@/lib/tmdb";
+import { tmdbFetch, isNotFound } from "@/lib/tmdb";
 import { titleOf } from "@/lib/servers";
 import type { MediaDetails } from "@/lib/types";
 
@@ -20,9 +20,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function WatchMovieRoute({ params }: Props) {
   const { id } = await params;
   if (!/^\d+$/.test(id)) notFound();
+
+  let details: MediaDetails;
   try {
-    return <WatchPage id={id} type="movie" />;
-  } catch {
-    notFound();
+    details = await tmdbFetch<MediaDetails>(`/movie/${id}`, {
+      append_to_response: "credits",
+    });
+  } catch (err) {
+    if (isNotFound(err)) notFound();
+    throw err;
   }
+
+  return <WatchPage details={details} type="movie" />;
 }

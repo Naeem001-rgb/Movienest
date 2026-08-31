@@ -17,13 +17,11 @@ export default function Player({
   episode?: number;
 }) {
   const [server, setServer] = useState<ServerId>("videasy");
-  const [mounted, setMounted] = useState(false);
 
-  // Restore the visitor's preferred server.
+  // Restore the visitor's preferred server after hydration.
   useEffect(() => {
     const stored = localStorage.getItem(SERVER_STORAGE_KEY) as ServerId | null;
     if (stored && SERVERS.some((s) => s.id === stored)) setServer(stored);
-    setMounted(true);
   }, []);
 
   const switchServer = (next: ServerId) => {
@@ -36,20 +34,14 @@ export default function Player({
   return (
     <div>
       <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-border bg-black shadow-[var(--shadow)]">
-        {mounted ? (
-          <iframe
-            key={src}
-            src={src}
-            title="Video player"
-            allowFullScreen
-            referrerPolicy="origin"
-            className="absolute inset-0 h-full w-full"
-          />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-sm text-text-secondary">
-            Loading player…
-          </div>
-        )}
+        <iframe
+          key={src}
+          src={src}
+          title="Video player"
+          allowFullScreen
+          referrerPolicy="origin"
+          className="absolute inset-0 h-full w-full"
+        />
       </div>
 
       <div className="mt-4 flex flex-wrap items-center gap-2">

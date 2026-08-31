@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import DetailsPage from "@/components/DetailsPage";
 import RelatedGrid from "@/components/RelatedGrid";
-import { tmdbFetch } from "@/lib/tmdb";
+import { tmdbFetch, isNotFound } from "@/lib/tmdb";
 import { titleOf } from "@/lib/servers";
 import type { MediaDetails } from "@/lib/types";
 
@@ -12,9 +12,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   try {
     const details = await tmdbFetch<MediaDetails>(`/movie/${id}`, { append_to_response: "credits" });
-    const title = titleOf(details);
     return {
-      title: `${title} — Movie Nest`,
+      title: `${titleOf(details)} — Movie Nest`,
       description: details.overview?.slice(0, 150),
     };
   } catch {
@@ -25,14 +24,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function MovieDetailsRoute({ params }: Props) {
   const { id } = await params;
   if (!/^\d+$/.test(id)) notFound();
+
+  let details: MediaDetails;
   try {
-    return (
-      <>
-        <DetailsPage id={id} type="movie" />
-        <RelatedGrid id={Number(id)} type="movie" />
-      </>
-    );
-  } catch {
-    notFound();
+    details = await tmdbFetch<MediaDetails>(`/movie/${id}`, {
+      append_to_response: "credits",
+    });
+  } catch (err) {
+    if (isNotFound(err)) notFound();
+    throw err;
   }
+
+  return (
+    <>
+      <DetailsPage details={details} type="movie" />
+      <RelatedGrid id={details.id} type="movie" />
+    </>
+  );
 }
