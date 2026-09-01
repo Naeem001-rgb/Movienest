@@ -48,8 +48,8 @@ export default function WatchPage({
 
         {/* TV season + episodes */}
         {type === "tv" && seasons && seasons.length > 0 ? (
-          <section className="mt-8">
-            <div className="mb-4 flex items-center justify-between">
+          <section className="mt-10">
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
               <h2 className="text-xl font-bold text-text">Episodes</h2>
               <SeasonPicker showId={details.id} seasons={seasons} currentSeason={season!} />
             </div>
