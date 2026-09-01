@@ -2,6 +2,8 @@ const BASE = "https://api.themoviedb.org/3";
 
 export const POSTER_BASE = "https://image.tmdb.org/t/p/w500";
 export const BACKDROP_BASE = "https://image.tmdb.org/t/p/w1280";
+/** Episode stills — w780 is plenty for a card that renders ~300–500px wide. */
+export const STILL_BASE = "https://image.tmdb.org/t/p/w780";
 
 /** Thrown when TMDB answers 404 — pages translate this into notFound(). */
 export class TmdbNotFoundError extends Error {
