@@ -25,8 +25,6 @@ export default function WatchPage({
   const title = titleOf(details);
   const genreNames = details.genres?.map((g) => g.name).join(", ");
   const cast = details.credits?.cast?.slice(0, 5).map((a) => a.name).join(", ");
-  const shareUrl = `https://movie-nest-application.vercel.app/watch/${type}/${details.id}`;
-  const shareText = encodeURIComponent(`Watching ${title} on Movie Nest!`);
 
   return (
     <div className="pb-8">
@@ -65,49 +63,24 @@ export default function WatchPage({
         ) : null}
 
         {/* Title info */}
-        <section className="mt-10 grid gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-2">
-            <h1 className="text-3xl font-extrabold text-text">{title}</h1>
-            <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-text-secondary">
-              <span className="font-bold" style={{ color: ratingColor(details.vote_average) }}>
-                ● {ratingPercent(details.vote_average)}%
-              </span>
-              <span>{yearOf(details)}</span>
-              {genreNames ? <span>{genreNames}</span> : null}
-            </div>
-            <p className="mt-4 max-w-3xl text-sm leading-relaxed text-text-secondary sm:text-base">
-              {details.overview || "No overview available."}
+        <section className="mt-10">
+          <h1 className="text-3xl font-extrabold text-text">{title}</h1>
+          <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-text-secondary">
+            <span className="font-bold" style={{ color: ratingColor(details.vote_average) }}>
+              ● {ratingPercent(details.vote_average)}%
+            </span>
+            <span>{yearOf(details)}</span>
+            {genreNames ? <span>{genreNames}</span> : null}
+          </div>
+          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-text-secondary sm:text-base">
+            {details.overview || "No overview available."}
+          </p>
+          {cast ? (
+            <p className="mt-4 text-sm text-text-secondary">
+              <span className="font-semibold text-text">Cast: </span>
+              {cast}
             </p>
-            {cast ? (
-              <p className="mt-4 text-sm text-text-secondary">
-                <span className="font-semibold text-text">Cast: </span>
-                {cast}
-              </p>
-            ) : null}
-          </div>
-
-          {/* Share */}
-          <div className="lg:col-span-1">
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-text">Share</h2>
-            <div className="mt-3 flex gap-2">
-              <a
-                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${shareText}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full border border-border px-4 py-2 text-sm font-medium text-text-secondary transition hover:border-accent hover:text-accent"
-              >
-                Facebook
-              </a>
-              <a
-                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${shareText}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full border border-border px-4 py-2 text-sm font-medium text-text-secondary transition hover:border-accent hover:text-accent"
-              >
-                Twitter / X
-              </a>
-            </div>
-          </div>
+          ) : null}
         </section>
       </div>
 

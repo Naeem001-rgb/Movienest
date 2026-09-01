@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Hide the dev-only Route/Bundle indicator (bottom-left popover) — not site UI.
+  devIndicators: false,
   async redirects() {
     return [
       // Legacy static-site URLs without query strings → new routes.

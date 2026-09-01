@@ -29,7 +29,7 @@ export default async function RelatedGrid({
   if (items.length === 0) return null;
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+    <section className="mx-auto max-w-7xl px-4 pt-16 pb-12 sm:px-6">
       <h2 className="mb-6 text-2xl font-bold text-text">More Like This</h2>
       <MediaGrid items={items.slice(0, 12)} linkToWatch={linkToWatch} />
     </section>

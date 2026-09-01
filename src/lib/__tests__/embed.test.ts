@@ -26,4 +26,12 @@ describe("buildEmbedUrl", () => {
     expect(buildEmbedUrl("vidsrc", { id: 1399, type: "tv", season: 3, episode: 5 })).toBe(
       "https://vidsrc.to/embed/tv/1399/3/5"
     ));
+  it("multiembed movie uses query params", () =>
+    expect(buildEmbedUrl("multiembed", { id: 550, type: "movie" })).toBe(
+      "https://multiembed.mov/?video_id=550&tmdb=1"
+    ));
+  it("multiembed tv adds s/e params", () =>
+    expect(buildEmbedUrl("multiembed", { id: 1399, type: "tv", season: 3, episode: 5 })).toBe(
+      "https://multiembed.mov/?video_id=1399&tmdb=1&s=3&e=5"
+    ));
 });

@@ -48,7 +48,7 @@ export default function Header() {
   return (
     <header
       ref={headerRef}
-      className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-lg transition-transform duration-300"
+      className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-lg transition duration-300"
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6">
         <Link href="/" className="flex shrink-0 items-center gap-2">
@@ -100,13 +100,15 @@ export default function Header() {
                 <path d="m6 9 6 6 6-6" />
               </svg>
             </button>
-            <div className="invisible absolute left-0 top-full z-50 w-56 rounded-xl border border-border bg-surface p-2 opacity-0 shadow-[var(--shadow)] transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-              <div className="grid max-h-80 grid-cols-1 gap-0.5 overflow-y-auto">
+            <div className="invisible absolute left-0 top-full z-50 w-56 rounded-xl border border-border bg-surface p-1.5 opacity-0 shadow-[var(--shadow)] transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+              {/* no-scrollbar hides the ugly default scrollbar; overscroll-contain keeps
+                  scrolling inside the menu instead of scrolling the page. */}
+              <div className="no-scrollbar grid max-h-80 grid-cols-1 gap-0.5 overflow-y-auto overscroll-contain p-0.5">
                 {GENRES.map((g) => (
                   <Link
                     key={g.slug}
                     href={`/genre/${g.slug}`}
-                    className="rounded-lg px-3 py-1.5 text-sm text-text-secondary transition hover:bg-surface-2 hover:text-accent"
+                    className="rounded-lg px-3 py-1.5 text-sm text-text-secondary transition hover:bg-surface-2 hover:text-accent focus-visible:bg-surface-2 focus-visible:text-accent"
                   >
                     {g.name}
                   </Link>
