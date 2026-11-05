@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { tmdbImage, ROW_POSTER_SIZES } from "@/lib/images";
+import { supportsProgress } from "@/lib/player-progress";
 import { useMemo, useRef, useState, useSyncExternalStore } from "react";
 import {
   formatWatchTime,
@@ -75,8 +76,9 @@ export default function ContinueWatching() {
         <ul className="no-scrollbar -mx-4 -mt-3 -mb-1 flex snap-x scroll-px-4 gap-4 overflow-x-auto px-4 pt-6 pb-6 sm:-mx-2 sm:scroll-px-2 sm:px-2">
           {entries.map((entry) => {
             const hasProgress = entry.duration > 0 && entry.position > 0;
+            const canResume = hasProgress && supportsProgress(entry.server);
             const episode = entry.type === "tv" ? `S${entry.season} · E${entry.episode}` : "Movie";
-            const action = hasProgress
+            const action = canResume
               ? `Resume at ${formatWatchTime(entry.position)}`
               : "Continue watching";
             return (
@@ -118,13 +120,13 @@ export default function ContinueWatching() {
                         <path d="M8 5v14l11-7z" />
                       </svg>
                       <span>
-                        {hasProgress ? `Resume ${formatWatchTime(entry.position)}` : "Continue"}
+                        {canResume ? `Resume ${formatWatchTime(entry.position)}` : "Continue"}
                       </span>
                     </div>
                     {hasProgress ? (
                       <div
                         role="progressbar"
-                        aria-label={`${entry.title} progress`}
+                        aria-label={`${entry.title} last recorded progress`}
                         aria-valuemin={0}
                         aria-valuemax={100}
                         aria-valuenow={Math.round((entry.position / entry.duration) * 100)}
@@ -149,9 +151,11 @@ export default function ContinueWatching() {
                     {entry.episodeTitle ? ` · ${entry.episodeTitle}` : ""}
                   </p>
                   <p className="mt-1 text-xs text-text-secondary">
-                    {hasProgress
+                    {canResume
                       ? `${Math.ceil((entry.duration - entry.position) / 60)} min left`
-                      : "Recently opened"}
+                      : hasProgress
+                        ? `Last saved at ${formatWatchTime(entry.position)}`
+                        : "Recently opened"}
                   </p>
                 </Link>
                 <button

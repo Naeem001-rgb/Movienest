@@ -72,6 +72,8 @@ Videasy and VidFast progress messages update the saved position, at most every f
 
 Implementation: `watch-history.ts` owns validation and list operations, `watch-history-store.ts` owns browser persistence / subscriptions, `player-progress.ts` adapts player events, and `ContinueWatching.tsx` renders the row. Catalog fetching remains server-side; the row needs no TMDB requests.
 
+Switching to MultiEmbed or VidSrc preserves the last measured timestamp and its source server. If a checkpoint exists, the watch page offers an explicit **Resume on [server]** action. The home card continues to open the selected server and labels that timestamp as **Last saved at**, rather than promising an automatic seek on an unsupported player. With no recorded timestamp, no resume action is shown. Player limitations are available under **About Continue Watching**.
+
 ## Maintenance and security
 
 - The catalog client is protected with `server-only`. Shared image URLs and responsive image sizes live in `src/lib/images.ts`; they use TMDB's CDN directly without a paid image service.

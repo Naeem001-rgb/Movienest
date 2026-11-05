@@ -1,4 +1,5 @@
 import { SERVERS, type ServerId } from "./embed";
+import { supportsProgress } from "./player-progress";
 import type { MediaType } from "./types";
 
 export const WATCH_HISTORY_KEY = "movienest:continue-watching:v1";
@@ -16,9 +17,34 @@ export interface WatchMedia {
 
 export interface WatchEntry extends WatchMedia {
   server: ServerId;
+  progressServer?: ServerId;
   position: number;
   duration: number;
   updatedAt: number;
+}
+
+/** Changing providers must not erase the last measured checkpoint. */
+export function createWatchEntry(
+  media: WatchMedia,
+  server: ServerId,
+  previous?: WatchEntry,
+  updatedAt = Date.now(),
+): WatchEntry {
+  const saved = previous && sameEpisode(previous, media) ? previous : undefined;
+  return {
+    ...media,
+    server,
+    progressServer:
+      saved?.progressServer ??
+      (saved && saved.position > 0 && supportsProgress(saved.server) ? saved.server : undefined),
+    position: saved?.position ?? 0,
+    duration: saved?.duration ?? 0,
+    updatedAt,
+  };
+}
+
+export function resumeServerFor(entry: WatchEntry): ServerId {
+  return entry.progressServer ?? (supportsProgress(entry.server) ? entry.server : "vidfast");
 }
 
 export function watchKey(media: Pick<WatchMedia, "id" | "type">): string {
@@ -58,6 +84,9 @@ function isEntry(value: unknown): value is WatchEntry {
     (e.episodeTitle === undefined ||
       (typeof e.episodeTitle === "string" && e.episodeTitle.length <= 500)) &&
     SERVERS.some((server) => server.id === e.server) &&
+    (e.progressServer === undefined ||
+      e.progressServer === "videasy" ||
+      e.progressServer === "vidfast") &&
     typeof e.position === "number" &&
     Number.isFinite(e.position) &&
     e.position >= 0 &&

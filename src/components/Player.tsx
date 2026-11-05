@@ -3,7 +3,11 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { SERVERS, buildEmbedUrl, type ServerId } from "@/lib/embed";
 import { parsePlayerProgress, supportsProgress } from "@/lib/player-progress";
 import {
+  createWatchEntry,
+  formatWatchTime,
   isFinished,
+  parseWatchHistory,
+  resumeServerFor,
   sameEpisode,
   watchKey,
   type WatchEntry,
@@ -11,6 +15,8 @@ import {
 } from "@/lib/watch-history";
 import {
   deleteWatchEntry,
+  getHistorySnapshot,
+  getServerHistorySnapshot,
   readWatchHistory,
   saveWatchEntry,
   subscribeToWatchHistory,
@@ -57,17 +63,19 @@ function PlayerSession({ media }: { media: WatchMedia }) {
   const flushRef = useRef(() => {});
   const { server } = selection;
   const src = buildEmbedUrl(server, { ...media, startAt: selection.startAt });
+  const snapshot = useSyncExternalStore(
+    subscribeToWatchHistory,
+    getHistorySnapshot,
+    getServerHistorySnapshot,
+  );
+  const checkpoint = parseWatchHistory(snapshot).find((entry) => sameEpisode(entry, media));
+  const resumeServer = checkpoint ? resumeServerFor(checkpoint) : "vidfast";
+  const resumeServerName = SERVERS.find((item) => item.id === resumeServer)?.name;
 
   useEffect(() => {
     if (media.type === "tv" && (media.season == null || media.episode == null)) return;
     const previous = readWatchHistory().find((entry) => sameEpisode(entry, media));
-    let entry: WatchEntry = {
-      ...media,
-      server,
-      position: supportsProgress(server) ? (previous?.position ?? 0) : 0,
-      duration: supportsProgress(server) ? (previous?.duration ?? 0) : 0,
-      updatedAt: Date.now(),
-    };
+    let entry: WatchEntry = createWatchEntry(media, server, previous);
     // A bookmark still works when a provider cannot report its playback position.
     saveWatchEntry(entry);
     let stopped = false;
@@ -87,6 +95,7 @@ function PlayerSession({ media }: { media: WatchMedia }) {
       if (!progress || (progress.position === 0 && !progress.ended)) return;
       entry = {
         ...entry,
+        progressServer: server,
         position: progress.position,
         duration: progress.duration,
         updatedAt: Date.now(),
@@ -169,10 +178,38 @@ function PlayerSession({ media }: { media: WatchMedia }) {
         ))}
       </div>
       {!supportsProgress(server) ? (
-        <p className="mt-3 text-xs leading-relaxed text-text-secondary">
-          This server saves the title and episode only. Choose Videasy or VidFast to resume at your
-          saved time when available.
-        </p>
+        <div className="mt-3 text-sm text-text-secondary">
+          {checkpoint && checkpoint.position > 0 ? (
+            <div className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+              <span>
+                Last saved position:{" "}
+                <span className="font-medium tabular-nums text-text">
+                  {formatWatchTime(checkpoint.position)}
+                </span>
+              </span>
+              <button
+                type="button"
+                onClick={() => switchServer(resumeServer)}
+                className="min-h-11 rounded-full border border-border px-4 py-2 font-semibold text-text transition-colors hover:border-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              >
+                Resume on {resumeServerName}
+              </button>
+            </div>
+          ) : null}
+          <details>
+            <summary className="w-fit cursor-pointer rounded py-2 underline-offset-4 hover:text-text hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+              About Continue Watching
+            </summary>
+            <p className="mt-1 max-w-2xl text-xs leading-relaxed">
+              Movie Nest remembers your {media.type === "tv" ? "show and episode" : "movie"} in this
+              browser. {SERVERS.find((item) => item.id === server)?.name} doesn’t share playback
+              time with Movie Nest, so automatic time tracking is unavailable on this server.
+              {checkpoint && checkpoint.position > 0
+                ? " Your last recorded position is kept when you switch servers."
+                : ""}
+            </p>
+          </details>
+        </div>
       ) : null}
     </div>
   );
