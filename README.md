@@ -2,6 +2,8 @@
 
 A movie & TV show browsing and streaming site built with **Next.js + TypeScript + Tailwind CSS**. Data comes live from the [TMDB API](https://www.themoviedb.org/documentation/api); playback embeds third-party players in iframes.
 
+[Open the live site](https://movienest-xi.vercel.app/).
+
 ## Features
 
 - **Home** — trending hero + scrolling rows (Trending, Popular Movies, Airing TV, Top Rated, genre rows)
