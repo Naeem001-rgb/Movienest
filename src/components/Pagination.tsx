@@ -31,7 +31,11 @@ export default function Pagination({
 
   return (
     <nav className="mt-10 flex flex-wrap items-center justify-center gap-2" aria-label="Pagination">
-      <Link href={qs(Math.max(1, page - 1))} className={`${base} ${page <= 1 ? disabled : ""}`}>
+      <Link
+        prefetch={false}
+        href={qs(Math.max(1, page - 1))}
+        className={`${base} ${page <= 1 ? disabled : ""}`}
+      >
         Prev
       </Link>
       {start > 1 && <span className="px-1 text-text-secondary">…</span>}
@@ -45,13 +49,14 @@ export default function Pagination({
             {p}
           </span>
         ) : (
-          <Link key={p} href={qs(p)} className={`${base} text-text-secondary`}>
+          <Link prefetch={false} key={p} href={qs(p)} className={`${base} text-text-secondary`}>
             {p}
           </Link>
-        )
+        ),
       )}
       {end < totalPages && <span className="px-1 text-text-secondary">…</span>}
       <Link
+        prefetch={false}
         href={qs(Math.min(totalPages, page + 1))}
         className={`${base} ${page >= totalPages ? disabled : ""}`}
       >

@@ -1,3 +1,4 @@
+import { ROW_POSTER_SIZES } from "@/lib/images";
 import MediaCard from "./MediaCard";
 import type { MediaItem } from "@/lib/types";
 
@@ -17,8 +18,11 @@ export default function MediaRow({ title, items }: { title: string; items: Media
           Side padding stays well past the 2px ring (px-4 below sm, sm:px-2 at sm+). */}
       <div className="no-scrollbar -mx-4 -mt-3 -mb-1 flex snap-x scroll-px-4 gap-4 overflow-x-auto px-4 pt-6 pb-6 sm:-mx-2 sm:scroll-px-2 sm:px-2">
         {posters.map((item) => (
-          <div key={`${item.media_type ?? ""}-${item.id}`} className="w-[180px] shrink-0 snap-start sm:w-[220px] lg:w-[240px]">
-            <MediaCard item={item} />
+          <div
+            key={`${item.media_type ?? ""}-${item.id}`}
+            className="w-[180px] shrink-0 snap-start sm:w-[220px] lg:w-[240px]"
+          >
+            <MediaCard item={item} sizes={ROW_POSTER_SIZES} />
           </div>
         ))}
       </div>

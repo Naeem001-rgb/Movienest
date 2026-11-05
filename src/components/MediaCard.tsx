@@ -1,20 +1,23 @@
 import Link from "next/link";
 import { titleOf, yearOf, hrefFor, watchHrefFor } from "@/lib/servers";
 import { ratingPercent, ratingColor } from "@/lib/rating";
-import { POSTER_BASE } from "@/lib/tmdb";
+import { tmdbImage, GRID_POSTER_SIZES } from "@/lib/images";
 import type { MediaItem } from "@/lib/types";
 
 export default function MediaCard({
   item,
   linkToWatch = false,
+  sizes = GRID_POSTER_SIZES,
 }: {
   item: MediaItem;
   linkToWatch?: boolean;
+  sizes?: string;
 }) {
   const percent = ratingPercent(item.vote_average);
 
   return (
     <Link
+      prefetch={false}
       href={linkToWatch ? watchHrefFor(item) : hrefFor(item)}
       className="group block w-full text-left"
       aria-label={titleOf(item)}
@@ -23,7 +26,11 @@ export default function MediaCard({
         {item.poster_path ? (
           /* eslint-disable-next-line @next/next/no-img-element */
           <img
-            src={`${POSTER_BASE}${item.poster_path}`}
+            {...tmdbImage(item.poster_path, "poster")}
+            sizes={sizes}
+            width={500}
+            height={750}
+            decoding="async"
             alt={titleOf(item)}
             loading="lazy"
             className="h-full w-full object-cover transition duration-300 group-hover:scale-105"

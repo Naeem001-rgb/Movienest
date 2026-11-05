@@ -1,55 +1,13 @@
-"use client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import Form from "next/form";
+import HeaderShell from "./HeaderShell";
+import { MAX_SEARCH_LENGTH } from "@/lib/params";
 import { ThemeToggle } from "@/lib/theme";
 import { GENRES } from "@/lib/genres";
 
 export default function Header() {
-  const router = useRouter();
-  const [query, setQuery] = useState("");
-  const headerRef = useRef<HTMLElement>(null);
-
-  // Hide header on scroll down, show on scroll up (matches the legacy site).
-  useEffect(() => {
-    const header = headerRef.current;
-    if (!header) return;
-    let lastScrollTop = 0;
-    const scrollThreshold = 100;
-
-    const onScroll = () => {
-      const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      if (Math.abs(currentScrollTop - lastScrollTop) < 5) return;
-      if (currentScrollTop > scrollThreshold) {
-        if (currentScrollTop > lastScrollTop) {
-          header.style.transform = "translateY(-100%)";
-          header.style.opacity = "0";
-        } else {
-          header.style.transform = "translateY(0)";
-          header.style.opacity = "1";
-        }
-      } else {
-        header.style.transform = "translateY(0)";
-        header.style.opacity = "1";
-      }
-      lastScrollTop = currentScrollTop;
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const submitSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    const q = query.trim();
-    if (q) router.push(`/search?q=${encodeURIComponent(q)}`);
-  };
-
   return (
-    <header
-      ref={headerRef}
-      className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-lg transition duration-300"
-    >
+    <HeaderShell>
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6">
         <Link href="/" className="flex shrink-0 items-center gap-2">
           <span className="text-2xl" aria-hidden="true">
@@ -108,6 +66,7 @@ export default function Header() {
                   <Link
                     key={g.slug}
                     href={`/genre/${g.slug}`}
+                    prefetch={false}
                     className="rounded-lg px-3 py-1.5 text-sm text-text-secondary transition hover:bg-surface-2 hover:text-accent focus-visible:bg-surface-2 focus-visible:text-accent"
                   >
                     {g.name}
@@ -118,24 +77,25 @@ export default function Header() {
           </div>
         </nav>
 
-        <form onSubmit={submitSearch} className="ml-auto hidden flex-1 max-w-xs sm:block" role="search">
+        <Form action="/search" className="ml-auto hidden flex-1 max-w-xs sm:block" role="search">
           <label htmlFor="site-search" className="sr-only">
             Search movies and TV shows
           </label>
           <input
             id="site-search"
             type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            name="q"
+            maxLength={MAX_SEARCH_LENGTH}
+            required
             placeholder="Search movies & shows…"
             className="w-full rounded-full border border-border bg-surface px-4 py-2 text-sm text-text placeholder:text-text-secondary focus:border-accent focus:outline-none"
           />
-        </form>
+        </Form>
 
         <div className="ml-auto sm:ml-0">
           <ThemeToggle />
         </div>
       </div>
-    </header>
+    </HeaderShell>
   );
 }

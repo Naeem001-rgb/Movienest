@@ -1,3 +1,4 @@
+import { parsePage, type QueryValue, searchQuery } from "@/lib/params";
 import type { Metadata } from "next";
 import MediaGrid from "@/components/MediaGrid";
 import Pagination from "@/components/Pagination";
@@ -7,22 +8,23 @@ import type { MediaItem, Paged } from "@/lib/types";
 export async function generateMetadata({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<{ q?: QueryValue }>;
 }): Promise<Metadata> {
   const { q } = await searchParams;
+  const query = searchQuery(q);
   return {
-    title: q ? `Search: ${q} — Movie Nest` : "Search — Movie Nest",
+    title: query ? `Search: ${query} — Movie Nest` : "Search — Movie Nest",
   };
 }
 
 export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; page?: string }>;
+  searchParams: Promise<{ q?: QueryValue; page?: QueryValue }>;
 }) {
   const { q, page: pageParam } = await searchParams;
-  const query = (q ?? "").trim();
-  const page = Math.min(Math.max(1, parseInt(pageParam ?? "1", 10) || 1), 500);
+  const query = searchQuery(q);
+  const page = parsePage(pageParam);
 
   if (!query) {
     return (
@@ -36,15 +38,10 @@ export default async function SearchPage({
   }
 
   // Live results — never cached.
-  const data = await tmdbFetch<Paged<MediaItem>>(
-    "/search/multi",
-    { query, page: String(page) },
-    0
-  );
+  const data = await tmdbFetch<Paged<MediaItem>>("/search/multi", { query, page: String(page) }, 0);
 
   const results = data.results.filter(
-    (item) =>
-      (item.media_type === "movie" || item.media_type === "tv") && item.poster_path
+    (item) => (item.media_type === "movie" || item.media_type === "tv") && item.poster_path,
   );
 
   return (

@@ -27,7 +27,7 @@ describe("isMovie", () => {
 describe("hrefFor", () => {
   it("links movies to /movie/:id", () =>
     expect(hrefFor({ id: 550, media_type: "movie", title: "Fight Club" } as MediaItem)).toBe(
-      "/movie/550"
+      "/movie/550",
     ));
   it("links tv to /tv/:id", () =>
     expect(hrefFor({ id: 1399, media_type: "tv", name: "GoT" } as MediaItem)).toBe("/tv/1399"));

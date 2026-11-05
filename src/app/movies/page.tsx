@@ -1,3 +1,4 @@
+import { parsePage, type QueryValue } from "@/lib/params";
 import type { Metadata } from "next";
 import BrowsePage from "@/components/BrowsePage";
 
@@ -9,17 +10,12 @@ export const metadata: Metadata = {
 export default async function MoviesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ page?: string }>;
+  searchParams: Promise<{ page?: QueryValue }>;
 }) {
   const { page: pageParam } = await searchParams;
-  const page = Math.min(Math.max(1, parseInt(pageParam ?? "1", 10) || 1), 500);
+  const page = parsePage(pageParam);
 
   return (
-    <BrowsePage
-      title="Popular Movies"
-      endpoint="/movie/popular"
-      basePath="/movies"
-      page={page}
-    />
+    <BrowsePage title="Popular Movies" endpoint="/movie/popular" basePath="/movies" page={page} />
   );
 }

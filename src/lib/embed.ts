@@ -11,16 +11,18 @@ export const SERVERS: { id: ServerId; name: string }[] = [
 
 export function buildEmbedUrl(
   server: ServerId,
-  opts: { id: number; type: MediaType; season?: number; episode?: number }
+  opts: { id: number; type: MediaType; season?: number; episode?: number; startAt?: number },
 ): string {
   const { id, type, season, episode } = opts;
   const tvSuffix =
     type === "tv" && season != null && episode != null ? `/${season}/${episode}` : "";
+  const startAt =
+    Number.isFinite(opts.startAt) && opts.startAt! > 0 ? Math.floor(opts.startAt!) : 0;
   switch (server) {
     case "videasy":
-      return `https://player.videasy.net/${type}/${id}${tvSuffix}`;
+      return `https://player.videasy.net/${type}/${id}${tvSuffix}${startAt ? `?progress=${startAt}` : ""}`;
     case "vidfast":
-      return `https://vidfast.pro/${type}/${id}${tvSuffix}?autoPlay=true`;
+      return `https://vidfast.pro/${type}/${id}${tvSuffix}?autoPlay=true${startAt ? `&startAt=${startAt}` : ""}`;
     case "vidsrc":
       return `https://vidsrc.to/embed/${type}/${id}${tvSuffix}`;
     case "multiembed":

@@ -17,13 +17,18 @@ export default async function RelatedGrid({
     const data = await tmdbFetch<Paged<MediaItem>>(`/${type}/${id}/similar`);
     items = data.results.filter((i) => i.poster_path);
   } catch (err) {
-    if (!isNotFound(err)) throw err;
+    // Optional recommendations must never take down the details or player page.
+    if (!isNotFound(err)) return null;
   }
 
   // Fall back to popular when a title has no similar results (or none listed).
   if (items.length === 0) {
-    const data = await tmdbFetch<Paged<MediaItem>>(`/${type}/popular`);
-    items = data.results.filter((i) => i.poster_path);
+    try {
+      const data = await tmdbFetch<Paged<MediaItem>>(`/${type}/popular`);
+      items = data.results.filter((i) => i.poster_path);
+    } catch {
+      return null;
+    }
   }
 
   if (items.length === 0) return null;

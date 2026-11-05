@@ -1,6 +1,6 @@
-"use client";
-import { useRouter } from "next/navigation";
-import { STILL_BASE } from "@/lib/tmdb";
+import Link from "next/link";
+import { tmdbImage } from "@/lib/images";
+import type { EpisodeItem } from "@/lib/types";
 
 function formatAirDate(airDate?: string): string | null {
   if (!airDate) return null;
@@ -18,27 +18,13 @@ export default function EpisodeList({
 }: {
   showId: number;
   season: number;
-  episodes: {
-    episode_number: number;
-    name: string;
-    overview?: string;
-    still_path?: string | null;
-    air_date?: string;
-  }[];
+  episodes: EpisodeItem[];
   currentEpisode: number;
 }) {
-  const router = useRouter();
-
-  const select = (episodeNumber: number) => {
-    router.push(`/watch/tv/${showId}?season=${season}&episode=${episodeNumber}`);
-    // Scroll the player into view after navigation settles.
-    requestAnimationFrame(() => {
-      document.getElementById("player-section")?.scrollIntoView({ behavior: "smooth", block: "center" });
-    });
-  };
-
   if (episodes.length === 0) {
-    return <p className="py-6 text-center text-text-secondary">No episodes found for this season.</p>;
+    return (
+      <p className="py-6 text-center text-text-secondary">No episodes found for this season.</p>
+    );
   }
 
   return (
@@ -49,10 +35,11 @@ export default function EpisodeList({
         const active = ep.episode_number === currentEpisode;
         const airDate = formatAirDate(ep.air_date);
         return (
-          <button
+          <Link
             key={ep.episode_number}
-            onClick={() => select(ep.episode_number)}
-            aria-pressed={active}
+            href={`/watch/tv/${showId}?season=${season}&episode=${ep.episode_number}#player-section`}
+            prefetch={false}
+            aria-current={active ? "true" : undefined}
             aria-label={`Play episode ${ep.episode_number}: ${ep.name}`}
             className={`group overflow-hidden rounded-xl border text-left transition duration-200 ${
               active
@@ -66,7 +53,11 @@ export default function EpisodeList({
               {ep.still_path ? (
                 /* eslint-disable-next-line @next/next/no-img-element */
                 <img
-                  src={`${STILL_BASE}${ep.still_path}`}
+                  {...tmdbImage(ep.still_path, "still")}
+                  sizes="(min-width: 1280px) 400px, (min-width: 1024px) calc((100vw - 80px) / 3), (min-width: 640px) calc((100vw - 64px) / 2), calc(100vw - 32px)"
+                  width={780}
+                  height={439}
+                  decoding="async"
                   alt=""
                   loading="lazy"
                   className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
@@ -80,7 +71,9 @@ export default function EpisodeList({
               )}
               <span
                 className={`absolute left-2 top-2 flex h-7 min-w-7 items-center justify-center rounded-md px-1.5 text-xs font-bold ${
-                  active ? "bg-accent text-accent-contrast" : "bg-background/80 text-text backdrop-blur-sm"
+                  active
+                    ? "bg-accent text-accent-contrast"
+                    : "bg-background/80 text-text backdrop-blur-sm"
                 }`}
               >
                 {ep.episode_number}
@@ -116,7 +109,7 @@ export default function EpisodeList({
                 </p>
               ) : null}
             </div>
-          </button>
+          </Link>
         );
       })}
     </div>

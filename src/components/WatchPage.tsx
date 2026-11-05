@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import Player from "@/components/Player";
 import EpisodeList from "@/components/EpisodeList";
 import SeasonPicker from "@/components/SeasonPicker";
@@ -24,7 +25,10 @@ export default function WatchPage({
 }) {
   const title = titleOf(details);
   const genreNames = details.genres?.map((g) => g.name).join(", ");
-  const cast = details.credits?.cast?.slice(0, 5).map((a) => a.name).join(", ");
+  const cast = details.credits?.cast
+    ?.slice(0, 5)
+    .map((a) => a.name)
+    .join(", ");
 
   return (
     <div className="pb-8">
@@ -37,13 +41,26 @@ export default function WatchPage({
           <span className="mx-2">›</span>
           <span className="text-text">{title}</span>
           {season != null && episode != null ? (
-            <span className="text-text-secondary"> · S{season} E{episode}</span>
+            <span className="text-text-secondary">
+              {" "}
+              · S{season} E{episode}
+            </span>
           ) : null}
         </nav>
 
         {/* Player */}
         <div id="player-section">
-          <Player id={details.id} type={type} season={season} episode={episode} />
+          <Player
+            media={{
+              id: details.id,
+              type,
+              title,
+              posterPath: details.poster_path ?? null,
+              season,
+              episode,
+              episodeTitle: episodes?.find((item) => item.episode_number === episode)?.name,
+            }}
+          />
         </div>
 
         {/* TV season + episodes */}
@@ -85,7 +102,9 @@ export default function WatchPage({
       </div>
 
       {/* Related — stays in the watch context */}
-      <RelatedGrid id={details.id} type={type} linkToWatch />
+      <Suspense fallback={null}>
+        <RelatedGrid id={details.id} type={type} linkToWatch />
+      </Suspense>
     </div>
   );
 }

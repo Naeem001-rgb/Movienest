@@ -19,9 +19,13 @@ export default function MediaGrid({
   }
 
   return (
-    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {posters.map((item) => (
-        <MediaCard key={`${item.media_type ?? ""}-${item.id}`} item={item} linkToWatch={linkToWatch} />
+        <MediaCard
+          key={`${item.media_type ?? ""}-${item.id}`}
+          item={item}
+          linkToWatch={linkToWatch}
+        />
       ))}
     </div>
   );

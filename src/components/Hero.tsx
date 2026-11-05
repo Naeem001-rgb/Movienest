@@ -1,18 +1,23 @@
 import Link from "next/link";
 import { titleOf, yearOf, hrefFor, isMovie } from "@/lib/servers";
 import { ratingPercent, ratingColor } from "@/lib/rating";
-import { BACKDROP_BASE } from "@/lib/tmdb";
+import { tmdbImage } from "@/lib/images";
 import type { MediaItem } from "@/lib/types";
 
 export default function Hero({ item }: { item: MediaItem }) {
-  const type = item.media_type === "tv" || !isMovie(item) ? "tv" : "movie";
+  const type = isMovie(item) ? "movie" : "tv";
 
   return (
     <section className="relative mb-10 h-[70vh] min-h-[480px] w-full overflow-hidden">
       {item.backdrop_path ? (
         /* eslint-disable-next-line @next/next/no-img-element */
         <img
-          src={`${BACKDROP_BASE}${item.backdrop_path}`}
+          {...tmdbImage(item.backdrop_path, "backdrop")}
+          sizes="100vw"
+          width={1280}
+          height={720}
+          fetchPriority="high"
+          decoding="async"
           alt=""
           className="absolute inset-0 h-full w-full object-cover"
         />
@@ -30,10 +35,7 @@ export default function Hero({ item }: { item: MediaItem }) {
           {titleOf(item)}
         </h1>
         <div className="mt-3 flex items-center gap-3 text-sm text-text-secondary">
-          <span
-            className="font-bold"
-            style={{ color: ratingColor(item.vote_average) }}
-          >
+          <span className="font-bold" style={{ color: ratingColor(item.vote_average) }}>
             ● {ratingPercent(item.vote_average)}%
           </span>
           <span>{yearOf(item)}</span>

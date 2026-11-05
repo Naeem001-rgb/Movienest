@@ -20,10 +20,8 @@ export interface MediaDetails extends MediaItem {
   production_companies?: { name: string }[];
   seasons?: { season_number: number; name: string }[];
   runtime?: number;
-  episode_run_time?: number[];
   number_of_seasons?: number;
   tagline?: string;
-  status?: string;
 }
 
 export interface EpisodeItem {

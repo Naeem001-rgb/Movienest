@@ -1,8 +1,7 @@
 import type { MetadataRoute } from "next";
 import { tmdbFetch } from "@/lib/tmdb";
 import type { MediaItem, Paged } from "@/lib/types";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://movie-nest-application.vercel.app";
+import { SITE_URL } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticEntries: MetadataRoute.Sitemap = [
@@ -16,7 +15,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/dmca",
   ].map((path) => ({
     url: `${SITE_URL}${path}`,
-    lastModified: new Date(),
     changeFrequency: "daily",
     priority: path === "" ? 1 : 0.7,
   }));
@@ -31,6 +29,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ]);
 
     for (const item of trending.results) {
+      if (item.media_type !== "movie" && item.media_type !== "tv") continue;
       const type = item.media_type === "tv" ? "tv" : "movie";
       entries.push({
         url: `${SITE_URL}/${type}/${item.id}`,
@@ -39,7 +38,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       });
     }
     for (const item of popularMovies.results) {
-      entries.push({ url: `${SITE_URL}/movie/${item.id}`, changeFrequency: "weekly", priority: 0.6 });
+      entries.push({
+        url: `${SITE_URL}/movie/${item.id}`,
+        changeFrequency: "weekly",
+        priority: 0.6,
+      });
     }
     for (const item of popularTv.results) {
       entries.push({ url: `${SITE_URL}/tv/${item.id}`, changeFrequency: "weekly", priority: 0.6 });
@@ -48,5 +51,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Sitemap still serves static routes if TMDB is unreachable.
   }
 
-  return entries;
+  return [...new Map(entries.map((entry) => [entry.url, entry])).values()];
 }

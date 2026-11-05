@@ -1,3 +1,4 @@
+import { parsePage, type QueryValue } from "@/lib/params";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import BrowsePage from "@/components/BrowsePage";
@@ -11,8 +12,12 @@ export async function generateMetadata({
   const { slug } = await params;
   const genre = genreBySlug(slug);
   return {
-    title: genre ? `${genre.name} Movies — Movie Nest` : "Genre — Movie Nest",
-    description: genre ? `Browse ${genre.name} movies on Movie Nest.` : undefined,
+    title: genre
+      ? `${genre.name} ${genre.type === "tv" ? "TV Shows" : "Movies"} — Movie Nest`
+      : "Genre — Movie Nest",
+    description: genre
+      ? `Browse ${genre.name} ${genre.type === "tv" ? "TV shows" : "movies"} on Movie Nest.`
+      : undefined,
   };
 }
 
@@ -21,18 +26,18 @@ export default async function GenrePage({
   searchParams,
 }: {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ page?: string }>;
+  searchParams: Promise<{ page?: QueryValue }>;
 }) {
   const [{ slug }, { page: pageParam }] = await Promise.all([params, searchParams]);
   const genre = genreBySlug(slug);
   if (!genre) notFound();
 
-  const page = Math.min(Math.max(1, parseInt(pageParam ?? "1", 10) || 1), 500);
+  const page = parsePage(pageParam);
 
   return (
     <BrowsePage
-      title={`${genre.name} Movies`}
-      endpoint="/discover/movie"
+      title={`${genre.name} ${genre.type === "tv" ? "TV Shows" : "Movies"}`}
+      endpoint={`/discover/${genre.type}`}
       extraParams={{ with_genres: String(genre.id) }}
       basePath={`/genre/${genre.slug}`}
       page={page}

@@ -2,10 +2,11 @@ export interface Genre {
   slug: string;
   name: string;
   id: number;
+  type: "movie" | "tv";
 }
 
 // Movie genres (TMDB genre IDs) — from the original site's GENRE dropdown.
-const MOVIE_GENRES: Genre[] = [
+const MOVIE_GENRES: Omit<Genre, "type">[] = [
   { slug: "action", name: "Action", id: 28 },
   { slug: "adventure", name: "Adventure", id: 12 },
   { slug: "animation", name: "Animation", id: 16 },
@@ -27,7 +28,7 @@ const MOVIE_GENRES: Genre[] = [
 ];
 
 // TV genres (TMDB genre IDs) — also offered by the original dropdown.
-const TV_GENRES: Genre[] = [
+const TV_GENRES: Omit<Genre, "type">[] = [
   { slug: "kids", name: "Kids", id: 10762 },
   { slug: "news", name: "News", id: 10763 },
   { slug: "reality", name: "Reality", id: 10764 },
@@ -35,7 +36,10 @@ const TV_GENRES: Genre[] = [
   { slug: "talk", name: "Talk", id: 10767 },
 ];
 
-export const GENRES: Genre[] = [...MOVIE_GENRES, ...TV_GENRES];
+export const GENRES: Genre[] = [
+  ...MOVIE_GENRES.map((genre) => ({ ...genre, type: "movie" as const })),
+  ...TV_GENRES.map((genre) => ({ ...genre, type: "tv" as const })),
+];
 
 export function genreBySlug(slug: string): Genre | undefined {
   return GENRES.find((g) => g.slug === slug);

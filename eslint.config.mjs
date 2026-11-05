@@ -12,6 +12,11 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "impeccable/**",
+    "skills/**",
+    "taste-skill/**",
+    ".playwright-cli/**",
+    ".impeccable/**",
   ]),
 ]);
 

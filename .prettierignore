@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+build/
+coverage/
+impeccable/
+skills/
+taste-skill/
+.impeccable/
+.playwright-cli/
+package-lock.json
+next-env.d.ts

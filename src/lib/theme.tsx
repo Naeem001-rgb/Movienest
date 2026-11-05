@@ -1,41 +1,39 @@
 "use client";
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { useSyncExternalStore } from "react";
 
 type Theme = "dark" | "light";
+const CHANGE_EVENT = "movienest:theme-change";
+const getServerTheme = (): Theme => "dark";
+const getTheme = (): Theme =>
+  document.documentElement.classList.contains("dark") ? "dark" : "light";
 
-const ThemeContext = createContext<{ theme: Theme; toggle: () => void }>({
-  theme: "dark",
-  toggle: () => {},
-});
-
-export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("dark");
-
-  useEffect(() => {
-    const stored = localStorage.getItem("theme");
-    const t: Theme = stored === "light-mode" ? "light" : "dark";
-    setTheme(t);
-    document.documentElement.classList.toggle("dark", t === "dark");
-  }, []);
-
-  const toggle = () => {
-    setTheme((prev) => {
-      const next: Theme = prev === "dark" ? "light" : "dark";
-      localStorage.setItem("theme", next === "dark" ? "dark-mode" : "light-mode");
-      document.documentElement.classList.toggle("dark", next === "dark");
-      return next;
-    });
+function subscribe(onChange: () => void) {
+  const onStorage = (event: StorageEvent) => {
+    if (event.key !== "theme" && event.key !== null) return;
+    document.documentElement.classList.toggle("dark", event.newValue !== "light-mode");
+    onChange();
   };
-
-  return <ThemeContext.Provider value={{ theme, toggle }}>{children}</ThemeContext.Provider>;
+  window.addEventListener("storage", onStorage);
+  window.addEventListener(CHANGE_EVENT, onChange);
+  return () => {
+    window.removeEventListener("storage", onStorage);
+    window.removeEventListener(CHANGE_EVENT, onChange);
+  };
 }
 
-export function useTheme() {
-  return useContext(ThemeContext);
+function toggle() {
+  const next = getTheme() === "dark" ? "light" : "dark";
+  document.documentElement.classList.toggle("dark", next === "dark");
+  try {
+    localStorage.setItem("theme", `${next}-mode`);
+  } catch {
+    /* Theme still works when storage is blocked. */
+  }
+  window.dispatchEvent(new Event(CHANGE_EVENT));
 }
 
 export function ThemeToggle() {
-  const { theme, toggle } = useTheme();
+  const theme = useSyncExternalStore(subscribe, getTheme, getServerTheme);
   return (
     <button
       onClick={toggle}

@@ -15,8 +15,8 @@ export default function DmcaPage() {
         website (&quot;Website&quot; or &quot;Service&quot;) and any of its related products and
         services (collectively, &quot;Services&quot;) and outlines how this Website operator
         (&quot;Operator&quot;, &quot;we&quot;, &quot;us&quot; or &quot;our&quot;) addresses
-        copyright infringement notifications and how you (&quot;you&quot; or &quot;your&quot;)
-        may submit a copyright infringement complaint.
+        copyright infringement notifications and how you (&quot;you&quot; or &quot;your&quot;) may
+        submit a copyright infringement complaint.
       </p>
       <p>
         Protection of intellectual property is of utmost importance to us and we ask our users and
@@ -28,8 +28,8 @@ export default function DmcaPage() {
       <h2>What to Consider Before Submitting a Copyright Complaint</h2>
       <p>
         Important Notice: Please note that if you are unsure whether the material you are reporting
-        is in fact infringing, you may wish to contact an attorney before filing a notification
-        with us.
+        is in fact infringing, you may wish to contact an attorney before filing a notification with
+        us.
       </p>
       <p>
         The DMCA requires you to provide your personal information in the copyright infringement
@@ -40,15 +40,15 @@ export default function DmcaPage() {
       <h2>Notifications of Infringement</h2>
       <p>
         If you are a copyright owner or an agent thereof, and you believe that any material
-        available on our Services infringes your copyrights, then you may submit a written
-        copyright infringement notification (&quot;Notification&quot;) using the contact details
-        below pursuant to the DMCA. All such Notifications must comply with the DMCA requirements.
+        available on our Services infringes your copyrights, then you may submit a written copyright
+        infringement notification (&quot;Notification&quot;) using the contact details below
+        pursuant to the DMCA. All such Notifications must comply with the DMCA requirements.
       </p>
       <p>
         Filing a DMCA complaint is the start of a pre-defined legal process. Your complaint will be
         reviewed for accuracy, validity, and completeness. If your complaint has satisfied these
-        requirements, our response may include the removal or restriction of access to the
-        allegedly infringing material.
+        requirements, our response may include the removal or restriction of access to the allegedly
+        infringing material.
       </p>
       <p>
         Response Process: If we remove or restrict access to materials or terminate any account in

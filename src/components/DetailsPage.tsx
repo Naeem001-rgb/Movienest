@@ -1,22 +1,22 @@
 import Link from "next/link";
 import { titleOf, yearOf } from "@/lib/servers";
 import { ratingPercent, ratingColor } from "@/lib/rating";
-import { POSTER_BASE, BACKDROP_BASE } from "@/lib/tmdb";
+import { tmdbImage } from "@/lib/images";
 import type { MediaDetails, MediaType } from "@/lib/types";
 
-export default function DetailsPage({
-  details,
-  type,
-}: {
-  details: MediaDetails;
-  type: MediaType;
-}) {
+export default function DetailsPage({ details, type }: { details: MediaDetails; type: MediaType }) {
   const title = titleOf(details);
   const year = yearOf(details);
   const genreNames = details.genres?.map((g) => g.name).join(", ") || "N/A";
-  const cast = details.credits?.cast?.slice(0, 5).map((a) => a.name).join(", ");
+  const cast = details.credits?.cast
+    ?.slice(0, 5)
+    .map((a) => a.name)
+    .join(", ");
   const country = details.production_countries?.map((c) => c.name).join(", ") || "N/A";
-  const production = details.production_companies?.slice(0, 3).map((c) => c.name).join(", ");
+  const production = details.production_companies
+    ?.slice(0, 3)
+    .map((c) => c.name)
+    .join(", ");
 
   const meta = [
     year,
@@ -37,7 +37,11 @@ export default function DetailsPage({
           {details.backdrop_path ? (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img
-              src={`${BACKDROP_BASE}${details.backdrop_path}`}
+              {...tmdbImage(details.backdrop_path, "backdrop")}
+              sizes="100vw"
+              width={1280}
+              height={720}
+              decoding="async"
               alt=""
               className="h-full w-full object-cover object-[50%_22%]"
             />
@@ -55,7 +59,11 @@ export default function DetailsPage({
               {details.poster_path ? (
                 /* eslint-disable-next-line @next/next/no-img-element */
                 <img
-                  src={`${POSTER_BASE}${details.poster_path}`}
+                  {...tmdbImage(details.poster_path, "poster")}
+                  sizes="(min-width: 1024px) 256px, (min-width: 640px) 224px, 176px"
+                  width={500}
+                  height={750}
+                  decoding="async"
                   alt={title}
                   className="aspect-[2/3] h-full w-full rounded-2xl object-cover ring-1 ring-border shadow-[var(--shadow)]"
                 />

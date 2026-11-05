@@ -16,13 +16,15 @@ export default function ContactPage() {
       </p>
 
       <h2>Let&apos;s Connect</h2>
-      <p>Choose the best way to reach us. We&apos;re committed to providing you with quick and helpful responses.</p>
+      <p>
+        Choose the best way to reach us. We&apos;re committed to providing you with quick and
+        helpful responses.
+      </p>
 
       <h2>Email Support</h2>
       <ul>
         <li>
-          General support:{" "}
-          <a href="mailto:support@movienest.com">support@movienest.com</a>
+          General support: <a href="mailto:support@movienest.com">support@movienest.com</a>
         </li>
         <li>Response time: 2–5 business days</li>
         <li>DMCA reports: copyright infringement issues</li>
@@ -46,14 +48,14 @@ export default function ContactPage() {
 
       <h3>Can I suggest new features or improvements?</h3>
       <p>
-        Absolutely! We love hearing from our users. Email us with &quot;Feature Request&quot; in
-        the subject line. We review all suggestions and consider them for future updates.
+        Absolutely! We love hearing from our users. Email us with &quot;Feature Request&quot; in the
+        subject line. We review all suggestions and consider them for future updates.
       </p>
 
       <h3>Is my personal information secure?</h3>
       <p>
-        Yes, we take your privacy seriously. See our <Link href="/privacy">Privacy Policy</Link>{" "}
-        for details on how we handle your information.
+        Yes, we take your privacy seriously. See our <Link href="/privacy">Privacy Policy</Link> for
+        details on how we handle your information.
       </p>
     </LegalPage>
   );

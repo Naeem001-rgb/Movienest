@@ -1,3 +1,4 @@
+import { parsePage, type QueryValue } from "@/lib/params";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import BrowsePage from "@/components/BrowsePage";
@@ -21,13 +22,13 @@ export default async function CountryPage({
   searchParams,
 }: {
   params: Promise<{ code: string }>;
-  searchParams: Promise<{ page?: string }>;
+  searchParams: Promise<{ page?: QueryValue }>;
 }) {
   const [{ code }, { page: pageParam }] = await Promise.all([params, searchParams]);
   const country = countryByCode(code);
   if (!country) notFound();
 
-  const page = Math.min(Math.max(1, parseInt(pageParam ?? "1", 10) || 1), 500);
+  const page = parsePage(pageParam);
 
   return (
     <BrowsePage

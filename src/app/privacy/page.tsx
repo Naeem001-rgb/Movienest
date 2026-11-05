@@ -53,19 +53,21 @@ export default function PrivacyPage() {
           website among its many uses.
         </li>
         <li>
-          <strong>Device</strong> means any device that can access the Service such as a computer,
-          a cellphone or a digital tablet.
+          <strong>Device</strong> means any device that can access the Service such as a computer, a
+          cellphone or a digital tablet.
         </li>
         <li>
           <strong>Personal Data</strong> is any information that relates to an identified or
           identifiable individual.
         </li>
-        <li><strong>Service</strong> refers to the Website.</li>
         <li>
-          <strong>Service Provider</strong> means any natural or legal person who processes the
-          data on behalf of the Company. It refers to third-party companies or individuals employed
-          by the Company to facilitate the Service, to provide the Service on behalf of the Company,
-          to perform services related to the Service or to assist the Company in analyzing how the
+          <strong>Service</strong> refers to the Website.
+        </li>
+        <li>
+          <strong>Service Provider</strong> means any natural or legal person who processes the data
+          on behalf of the Company. It refers to third-party companies or individuals employed by
+          the Company to facilitate the Service, to provide the Service on behalf of the Company, to
+          perform services related to the Service or to assist the Company in analyzing how the
           Service is used.
         </li>
         <li>
@@ -91,8 +93,8 @@ export default function PrivacyPage() {
       <h4>Personal Data</h4>
       <p>
         While using Our Service, We may ask You to provide Us with certain personally identifiable
-        information that can be used to contact or identify You. Personally identifiable
-        information may include, but is not limited to: Usage Data.
+        information that can be used to contact or identify You. Personally identifiable information
+        may include, but is not limited to: Usage Data.
       </p>
 
       <h4>Usage Data</h4>
@@ -105,10 +107,10 @@ export default function PrivacyPage() {
       </p>
       <p>
         When You access the Service by or through a mobile device, We may collect certain
-        information automatically, including, but not limited to, the type of mobile device You
-        use, Your mobile device unique ID, the IP address of Your mobile device, Your mobile
-        operating system, the type of mobile Internet browser You use, unique device identifiers
-        and other diagnostic data.
+        information automatically, including, but not limited to, the type of mobile device You use,
+        Your mobile device unique ID, the IP address of Your mobile device, Your mobile operating
+        system, the type of mobile Internet browser You use, unique device identifiers and other
+        diagnostic data.
       </p>
       <p>
         We may also collect information that Your browser sends whenever You visit our Service or
@@ -127,8 +129,8 @@ export default function PrivacyPage() {
           <strong>Cookies or Browser Cookies.</strong> A cookie is a small file placed on Your
           Device. You can instruct Your browser to refuse all Cookies or to indicate when a Cookie
           is being sent. However, if You do not accept Cookies, You may not be able to use some
-          parts of our Service. Unless you have adjusted Your browser setting so that it will
-          refuse Cookies, our Service may use Cookies.
+          parts of our Service. Unless you have adjusted Your browser setting so that it will refuse
+          Cookies, our Service may use Cookies.
         </li>
         <li>
           <strong>Web Beacons.</strong> Certain sections of our Service and our emails may contain
@@ -141,8 +143,8 @@ export default function PrivacyPage() {
       </ul>
       <p>
         Cookies can be &quot;Persistent&quot; or &quot;Session&quot; Cookies. Persistent Cookies
-        remain on Your personal computer or mobile device when You go offline, while Session
-        Cookies are deleted as soon as You close Your web browser.
+        remain on Your personal computer or mobile device when You go offline, while Session Cookies
+        are deleted as soon as You close Your web browser.
       </p>
       <p>We use both Session and Persistent Cookies for the purposes set out below:</p>
 
@@ -152,10 +154,10 @@ export default function PrivacyPage() {
         <li>Administered by: Us</li>
         <li>
           Purpose: These Cookies are essential to provide You with services available through the
-          Website and to enable You to use some of its features. They help to authenticate users
-          and prevent fraudulent use of user accounts. Without these Cookies, the services that You
-          have asked for cannot be provided, and We only use these Cookies to provide You with
-          those services.
+          Website and to enable You to use some of its features. They help to authenticate users and
+          prevent fraudulent use of user accounts. Without these Cookies, the services that You have
+          asked for cannot be provided, and We only use these Cookies to provide You with those
+          services.
         </li>
       </ul>
 
@@ -175,8 +177,8 @@ export default function PrivacyPage() {
         <li>
           Purpose: These Cookies allow us to remember choices You make when You use the Website,
           such as remembering your login details or language preference. The purpose of these
-          Cookies is to give You a more personal experience and to avoid You having to re-enter
-          Your preferences every time You use the Website.
+          Cookies is to give You a more personal experience and to avoid You having to re-enter Your
+          preferences every time You use the Website.
         </li>
       </ul>
       <p>
@@ -189,9 +191,9 @@ export default function PrivacyPage() {
       <ul>
         <li>To provide and maintain our Service, including to monitor the usage of our Service.</li>
         <li>
-          To manage Your Account: to manage Your registration as a user of the Service. The
-          Personal Data You provide can give You access to different functionalities of the Service
-          that are available to You as a registered user.
+          To manage Your Account: to manage Your registration as a user of the Service. The Personal
+          Data You provide can give You access to different functionalities of the Service that are
+          available to You as a registered user.
         </li>
         <li>
           For the performance of a contract: the development, compliance and undertaking of the
@@ -214,15 +216,14 @@ export default function PrivacyPage() {
         <li>
           For business transfers: We may use Your information to evaluate or conduct a merger,
           divestiture, restructuring, reorganization, dissolution, or other sale or transfer of some
-          or all of Our assets, whether as a going concern or as part of bankruptcy, liquidation,
-          or similar proceeding, in which Personal Data held by Us about our Service users is among
-          the assets transferred.
+          or all of Our assets, whether as a going concern or as part of bankruptcy, liquidation, or
+          similar proceeding, in which Personal Data held by Us about our Service users is among the
+          assets transferred.
         </li>
         <li>
-          For other purposes: We may use Your information for other purposes, such as data
-          analysis, identifying usage trends, determining the effectiveness of our promotional
-          campaigns and to evaluate and improve our Service, products, services, marketing and
-          your experience.
+          For other purposes: We may use Your information for other purposes, such as data analysis,
+          identifying usage trends, determining the effectiveness of our promotional campaigns and
+          to evaluate and improve our Service, products, services, marketing and your experience.
         </li>
       </ul>
       <p>We may share Your personal information in the following situations:</p>
@@ -259,26 +260,26 @@ export default function PrivacyPage() {
 
       <h2>Retention of Your Personal Data</h2>
       <p>
-        The Company will retain Your Personal Data only for as long as is necessary for the
-        purposes set out in this Privacy Policy. We will retain and use Your Personal Data to the
-        extent necessary to comply with our legal obligations (for example, if we are required to
-        retain your data to comply with applicable laws), resolve disputes, and enforce our legal
+        The Company will retain Your Personal Data only for as long as is necessary for the purposes
+        set out in this Privacy Policy. We will retain and use Your Personal Data to the extent
+        necessary to comply with our legal obligations (for example, if we are required to retain
+        your data to comply with applicable laws), resolve disputes, and enforce our legal
         agreements and policies.
       </p>
       <p>
         The Company will also retain Usage Data for internal analysis purposes. Usage Data is
-        generally retained for a shorter period of time, except when this data is used to
-        strengthen the security or to improve the functionality of Our Service, or We are legally
-        obligated to retain this data for longer time periods.
+        generally retained for a shorter period of time, except when this data is used to strengthen
+        the security or to improve the functionality of Our Service, or We are legally obligated to
+        retain this data for longer time periods.
       </p>
 
       <h2>Transfer of Your Personal Data</h2>
       <p>
         Your information, including Personal Data, is processed at the Company&apos;s operating
-        offices and in any other places where the parties involved in the processing are located.
-        It means that this information may be transferred to — and maintained on — computers
-        located outside of Your state, province, country or other governmental jurisdiction where
-        the data protection laws may differ than those from Your jurisdiction.
+        offices and in any other places where the parties involved in the processing are located. It
+        means that this information may be transferred to — and maintained on — computers located
+        outside of Your state, province, country or other governmental jurisdiction where the data
+        protection laws may differ than those from Your jurisdiction.
       </p>
       <p>
         Your consent to this Privacy Policy followed by Your submission of such information
@@ -293,18 +294,18 @@ export default function PrivacyPage() {
 
       <h2>Delete Your Personal Data</h2>
       <p>
-        You have the right to delete or request that We assist in deleting the Personal Data that
-        We have collected about You.
+        You have the right to delete or request that We assist in deleting the Personal Data that We
+        have collected about You.
       </p>
       <p>
-        Our Service may give You the ability to delete certain information about You from within
-        the Service.
+        Our Service may give You the ability to delete certain information about You from within the
+        Service.
       </p>
       <p>
-        You may update, amend, or delete Your information at any time by signing in to Your
-        Account, if you have one, and visiting the account settings section that allows you to
-        manage Your personal information. You may also contact Us to request access to, correct,
-        or delete any personal information that You have provided to Us.
+        You may update, amend, or delete Your information at any time by signing in to Your Account,
+        if you have one, and visiting the account settings section that allows you to manage Your
+        personal information. You may also contact Us to request access to, correct, or delete any
+        personal information that You have provided to Us.
       </p>
       <p>
         Please note, however, that We may need to retain certain information when we have a legal
@@ -315,8 +316,8 @@ export default function PrivacyPage() {
 
       <h3>Business Transactions</h3>
       <p>
-        If the Company is involved in a merger, acquisition or asset sale, Your Personal Data may
-        be transferred. We will provide notice before Your Personal Data is transferred and becomes
+        If the Company is involved in a merger, acquisition or asset sale, Your Personal Data may be
+        transferred. We will provide notice before Your Personal Data is transferred and becomes
         subject to a different Privacy Policy.
       </p>
 
@@ -351,11 +352,11 @@ export default function PrivacyPage() {
       <h2>Children&apos;s Privacy</h2>
       <p>
         Our Service does not address anyone under the age of 13. We do not knowingly collect
-        personally identifiable information from anyone under the age of 13. If You are a parent
-        or guardian and You are aware that Your child has provided Us with Personal Data, please
+        personally identifiable information from anyone under the age of 13. If You are a parent or
+        guardian and You are aware that Your child has provided Us with Personal Data, please
         contact Us. If We become aware that We have collected Personal Data from anyone under the
-        age of 13 without verification of parental consent, We take steps to remove that
-        information from Our servers.
+        age of 13 without verification of parental consent, We take steps to remove that information
+        from Our servers.
       </p>
       <p>
         If We need to rely on consent as a legal basis for processing Your information and Your
@@ -365,9 +366,9 @@ export default function PrivacyPage() {
 
       <h2>Links to Other Websites</h2>
       <p>
-        Our Service may contain links to other websites that are not operated by Us. If You click
-        on a third party link, You will be directed to that third party&apos;s site. We strongly
-        advise You to review the Privacy Policy of every site You visit.
+        Our Service may contain links to other websites that are not operated by Us. If You click on
+        a third party link, You will be directed to that third party&apos;s site. We strongly advise
+        You to review the Privacy Policy of every site You visit.
       </p>
       <p>
         We have no control over and assume no responsibility for the content, privacy policies or
@@ -380,13 +381,13 @@ export default function PrivacyPage() {
         posting the new Privacy Policy on this page.
       </p>
       <p>
-        We will let You know via email and/or a prominent notice on Our Service, prior to the
-        change becoming effective and update the &quot;Last updated&quot; date at the top of this
-        Privacy Policy.
+        We will let You know via email and/or a prominent notice on Our Service, prior to the change
+        becoming effective and update the &quot;Last updated&quot; date at the top of this Privacy
+        Policy.
       </p>
       <p>
-        You are advised to review this Privacy Policy periodically for any changes. Changes to
-        this Privacy Policy are effective when they are posted on this page.
+        You are advised to review this Privacy Policy periodically for any changes. Changes to this
+        Privacy Policy are effective when they are posted on this page.
       </p>
 
       <h2>Contact Us</h2>

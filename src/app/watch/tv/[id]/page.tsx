@@ -1,19 +1,20 @@
+import { isMediaId, parseInteger, selectEpisode, type QueryValue } from "@/lib/params";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import WatchPage from "@/components/WatchPage";
-import { tmdbFetch, isNotFound } from "@/lib/tmdb";
+import { getMediaDetails, isNotFound, tmdbFetch } from "@/lib/tmdb";
 import { titleOf } from "@/lib/servers";
 import type { EpisodeItem, MediaDetails } from "@/lib/types";
 
 type Props = {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ season?: string; episode?: string }>;
+  searchParams: Promise<{ season?: QueryValue; episode?: QueryValue }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   try {
-    const details = await tmdbFetch<MediaDetails>(`/tv/${id}`);
+    const details = await getMediaDetails("tv", id);
     return { title: `Watch ${titleOf(details)} — Movie Nest` };
   } catch {
     return { title: "Watch — Movie Nest" };
@@ -22,13 +23,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function WatchTvRoute({ params, searchParams }: Props) {
   const [{ id }, sp] = await Promise.all([params, searchParams]);
-  if (!/^\d+$/.test(id)) notFound();
+  if (!isMediaId(id)) notFound();
 
   let details: MediaDetails;
   try {
-    details = await tmdbFetch<MediaDetails>(`/tv/${id}`, {
-      append_to_response: "credits",
-    });
+    details = await getMediaDetails("tv", id);
   } catch (err) {
     if (isNotFound(err)) notFound();
     throw err;
@@ -45,7 +44,7 @@ export default async function WatchTvRoute({ params, searchParams }: Props) {
   let episodes: EpisodeItem[] = [];
 
   if (seasons.length > 0) {
-    const requestedSeason = parseInt(sp.season ?? "", 10);
+    const requestedSeason = parseInteger(sp.season);
     const hasSeason1 = seasons.some((s) => s.season_number === 1);
     const fallbackSeason = hasSeason1 ? 1 : seasons[0].season_number;
     season = seasons.some((s) => s.season_number === requestedSeason)
@@ -57,19 +56,14 @@ export default async function WatchTvRoute({ params, searchParams }: Props) {
       const seasonData = await tmdbFetch<{ episodes: EpisodeItem[] }>(
         `/tv/${id}/season/${season}`,
         {},
-        0
+        0,
       );
       episodes = seasonData.episodes ?? [];
     } catch (err) {
       if (!isNotFound(err)) throw err;
     }
 
-    const requestedEpisode = parseInt(sp.episode ?? "", 10);
-    const maxEpisode = episodes.length > 0 ? episodes[episodes.length - 1].episode_number : 0;
-    episode =
-      Number.isInteger(requestedEpisode) && requestedEpisode >= 1 && requestedEpisode <= maxEpisode
-        ? requestedEpisode
-        : Math.min(1, maxEpisode) || 1;
+    episode = selectEpisode(episodes, sp.episode);
   }
 
   return (
