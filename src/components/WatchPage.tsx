@@ -5,6 +5,7 @@ import EpisodeList from "@/components/EpisodeList";
 import SeasonPicker from "@/components/SeasonPicker";
 import RelatedGrid from "@/components/RelatedGrid";
 import CastPortrait from "@/components/CastPortrait";
+import WatchDetailsBorder from "@/components/WatchDetailsBorder";
 import { titleOf, yearOf } from "@/lib/servers";
 import { ratingPercent, ratingColor } from "@/lib/rating";
 import type { EpisodeItem, MediaDetails, MediaType } from "@/lib/types";
@@ -78,7 +79,8 @@ export default function WatchPage({
         ) : null}
 
         {/* Title info */}
-        <section className="mt-10 rounded-xl bg-surface p-5 shadow-[var(--shadow)] sm:p-6 lg:p-8">
+        <section className="watch-details-panel mt-10 rounded-xl bg-surface p-5 shadow-[var(--shadow)] sm:p-6 lg:p-8">
+          <WatchDetailsBorder />
           <div
             className={`grid gap-6 ${cast.length > 0 ? "lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-8" : ""}`}
           >

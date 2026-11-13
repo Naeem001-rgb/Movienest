@@ -45,6 +45,79 @@ body {
   color: var(--text);
 }
 
+@property --watch-border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.watch-details-panel {
+  position: relative;
+  isolation: isolate;
+}
+
+.watch-details-border {
+  --watch-border-red: #d93f58;
+  --watch-border-green: #14855f;
+  --watch-border-blue: #4864db;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border: 1px solid var(--border);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.dark .watch-details-border {
+  --watch-border-red: #ff5773;
+  --watch-border-green: #40dfad;
+  --watch-border-blue: #6b8cff;
+}
+
+@supports (mask-composite: exclude) or (-webkit-mask-composite: xor) {
+  .watch-details-border {
+    border: 0;
+    padding: 2px;
+    background: conic-gradient(
+      from var(--watch-border-angle),
+      var(--watch-border-red),
+      var(--accent-bright),
+      var(--watch-border-green),
+      #2dbfc4,
+      var(--watch-border-blue),
+      #bd6bea,
+      var(--watch-border-red)
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: watch-border-orbit 8s linear infinite;
+    animation-play-state: paused;
+  }
+}
+
+.watch-details-border[data-running="true"] {
+  animation-play-state: running;
+}
+
+/* Negative angles move the RGB strip anticlockwise. */
+@keyframes watch-border-orbit {
+  to {
+    --watch-border-angle: -360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .watch-details-border {
+    animation: none;
+  }
+}
+
 /* Hide scrollbar on horizontal media rows */
 .no-scrollbar {
   -ms-overflow-style: none;
