@@ -45,11 +45,11 @@ export default function Player({ media }: { media: WatchMedia }) {
 
 function initialSelection(media: WatchMedia) {
   const saved = readWatchHistory().find((entry) => sameEpisode(entry, media));
-  let server: ServerId = saved?.server ?? "videasy";
+  let server: ServerId = saved?.server ?? "vidfast";
   if (!saved) {
     try {
       const preferred = localStorage.getItem(SERVER_STORAGE_KEY);
-      server = SERVERS.find((s) => s.id === preferred)?.id ?? "videasy";
+      server = SERVERS.find((s) => s.id === preferred)?.id ?? "vidfast";
     } catch {
       /* Playback works with storage disabled. */
     }

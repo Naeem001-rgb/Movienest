@@ -41,12 +41,11 @@ Single `tmdbFetch<T>(path, params, revalidate=3600)` helper. Defaults to 1h reva
 
 ### Watch / embed servers (src/lib/embed.ts)
 
-`buildEmbedUrl(server, { id, type, season?, episode? })` with `SERVERS = videasy (default) | vidfast | vidsrc`. URL shapes:
-- videasy: `player.videasy.net/{movie|tv}/{id}` (+ `/{season}/{episode}` for TV)
+`buildEmbedUrl(server, { id, type, season?, episode? })` with `SERVERS = vidfast (default) | vidsrc`. URL shapes:
 - vidfast: `vidfast.pro/{movie|tv}/{id}` (+ TV suffix) + `?autoPlay=true`
 - vidsrc: `vidsrc.to/embed/{movie|tv}/{id}` (+ TV suffix)
 
-`Player.tsx` (client) renders the iframe for the active server, defaulting to videasy and restoring the visitor's saved preference from `localStorage` key `server` after hydration. Episode/season changes navigate (URL is state), which re-renders the player server-side.
+`Player.tsx` (client) renders the iframe for the active server, defaulting to vidfast and restoring the visitor's saved preference from `localStorage` key `server` after hydration. Episode/season changes navigate (URL is state), which re-renders the player server-side.
 
 ### Conventions
 

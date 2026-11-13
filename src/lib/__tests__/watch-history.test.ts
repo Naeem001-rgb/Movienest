@@ -39,11 +39,6 @@ describe("watch history", () => {
     expect(resumeServerFor(vidsrc)).toBe("vidfast");
     expect(parseWatchHistory(JSON.stringify([vidsrc]))).toEqual([vidsrc]);
   });
-  it("keeps the checkpoint's provider when returning on a different reporting server", () => {
-    const switched = createWatchEntry(movie, "videasy", movie, 2000);
-    expect(switched.progressServer).toBe("vidfast");
-    expect(switched.position).toBe(1200);
-  });
   it("does not carry a checkpoint into a different title or episode", () => {
     expect(createWatchEntry({ ...show, episode: 4 }, "multiembed", show, 2000)).toMatchObject({
       position: 0,

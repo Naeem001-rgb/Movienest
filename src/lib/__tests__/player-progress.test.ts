@@ -27,7 +27,7 @@ describe("player progress boundary", () => {
       "null",
     ])
       expect(parsePlayerProgress("vidfast", origin, event, movie)).toBeNull();
-    expect(parsePlayerProgress("videasy", "https://vidfast.pro", event, movie)).toBeNull();
+    expect(parsePlayerProgress("vidsrc", "https://vidfast.pro", event, movie)).toBeNull();
     expect(parsePlayerProgress("vidsrc", "https://vidsrc.to", event, movie)).toBeNull();
   });
   it("rejects unrelated titles, episodes and non-playback status messages", () => {
@@ -70,39 +70,5 @@ describe("player progress boundary", () => {
   it("recognizes completion events", () => {
     const ended = { ...event, data: { ...event.data, event: "ended", currentTime: 7200 } };
     expect(parsePlayerProgress("vidfast", "https://vidfast.pro", ended, movie)?.ended).toBe(true);
-  });
-  it("reads only the active title in a Videasy library update", () => {
-    const payload = {
-      type: "MEDIA_DATA",
-      data: {
-        unrelated: { id: 1, type: "movie", progress: { watched: 300, duration: 500 } },
-        current: { id: "550", type: "movie", progress: { watched: 1800, duration: 7200 } },
-      },
-    };
-    expect(
-      parsePlayerProgress("videasy", "https://player.videasy.net", JSON.stringify(payload), movie)
-        ?.position,
-    ).toBe(1800);
-  });
-  it("accepts both generations of Videasy PLAYER_EVENT timestamps", () => {
-    for (const time of [{ timestamp: 450 }, { currentTime: 450 }]) {
-      const payload = {
-        type: "PLAYER_EVENT",
-        data: { event: "timeupdate", id: "550", type: "movie", duration: 7200, ...time },
-      };
-      expect(
-        parsePlayerProgress("videasy", "https://player.videasy.net", JSON.stringify(payload), movie)
-          ?.position,
-      ).toBe(450);
-    }
-  });
-  it("reads a Videasy timestamp only when its media identity matches", () => {
-    const payload = { id: 550, type: "movie", timestamp: 120, duration: 7200 };
-    expect(
-      parsePlayerProgress("videasy", "https://player.videasy.to", payload, movie)?.position,
-    ).toBe(120);
-    expect(
-      parsePlayerProgress("videasy", "https://player.videasy.net", { ...payload, id: 1 }, movie),
-    ).toBeNull();
   });
 });

@@ -10,7 +10,7 @@ A movie & TV show browsing and streaming site built with **Next.js + TypeScript 
 - **Browse** — `/movies`, `/tv`, per-genre (`/genre/action`), per-country (`/country/kr`) with pagination
 - **Search** — live multi-search at `/search?q=…`
 - **Details** — backdrop, poster, TMDB user rating, cast, related titles at `/movie/{id}` and `/tv/{id}`
-- **Watch** — `/watch/movie/{id}` and `/watch/tv/{id}?season=&episode=` with four selectable servers (Videasy, VidFast, VidSrc, MultiEmbed) and a season/episode picker for TV
+- **Watch** — `/watch/movie/{id}` and `/watch/tv/{id}?season=&episode=` with three selectable servers (VidFast, VidSrc, MultiEmbed) and a season/episode picker for TV
 - **Continue Watching** — a home-page row with saved movies / TV episodes, playback progress where supported, and remove / undo controls
 - **Dark mode by default** with a light-mode toggle (remembered per visitor)
 - **SEO** — server-rendered pages, per-page metadata, auto-generated `sitemap.xml` and `robots.txt`, legacy `.html` URLs redirect to the new routes
@@ -68,7 +68,7 @@ Ratings shown on cards are TMDB community scores (`vote_average × 10` as a perc
 
 Opening a watch page saves its title, poster, selected server, and TV season / episode in this browser under `movienest:continue-watching:v1`. The home page shows up to 40 recent titles, with one entry per movie or series. Removing a card persists across reloads and other tabs; Undo restores it. Clearing browser storage clears the list. There is no account or cross-device sync. If storage is unavailable, history works in memory for the current session.
 
-Videasy and VidFast progress messages update the saved position, at most every five seconds, with a final flush on navigation, server changes, or hiding the page. The listener validates the active iframe, an explicit provider-origin allowlist, content identity, and numeric progress. Resume uses Videasy's `progress` or VidFast's `startAt` URL parameter. These third-party protocols are outside our control; when no supported progress arrives, the card remains a title / episode bookmark with no estimated progress. VidSrc and MultiEmbed currently provide bookmarks only. Completion events or 98% progress remove the finished movie / episode; opening another episode replaces the series entry with that episode.
+VidFast progress messages update the saved position, at most every five seconds, with a final flush on navigation, server changes, or hiding the page. The listener validates the active iframe, an explicit provider-origin allowlist, content identity, and numeric progress. Resume uses VidFast's `startAt` URL parameter. These third-party protocols are outside our control; when no supported progress arrives, the card remains a title / episode bookmark with no estimated progress. VidSrc and MultiEmbed currently provide bookmarks only. Completion events or 98% progress remove the finished movie / episode; opening another episode replaces the series entry with that episode.
 
 Implementation: `watch-history.ts` owns validation and list operations, `watch-history-store.ts` owns browser persistence / subscriptions, `player-progress.ts` adapts player events, and `ContinueWatching.tsx` renders the row. Catalog fetching remains server-side; the row needs no TMDB requests.
 

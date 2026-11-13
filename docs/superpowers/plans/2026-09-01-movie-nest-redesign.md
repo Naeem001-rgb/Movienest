@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Rebuild Movie Nest as a Next.js + TypeScript + Tailwind app (dark/light cinematic theme), preserving all TMDB data usage, the three embed servers, TV season/episode selection, legal pages, and SEO files.
+**Goal:** Rebuild Movie Nest as a Next.js + TypeScript + Tailwind app (dark/light cinematic theme), preserving all TMDB data usage, the two embed servers, TV season/episode selection, legal pages, and SEO files.
 
 **Architecture:** Next.js App Router with server components fetching TMDB server-side (key in env, 1h revalidation for browse content, live search/episodes). Routes: home, browse (`/movies`, `/tv`, `/genre/[slug]`, `/country/[code]`), search, details (`/movie/[id]`, `/tv/[id]`), watch (`/watch/movie/[id]`, `/watch/tv/[id]?season=&episode=`), legal pages. Old `.html` URLs get redirected via route handlers.
 
@@ -16,8 +16,7 @@
 - TMDB base URL `https://api.themoviedb.org/3`; image bases `https://image.tmdb.org/t/p/w500` (posters) and `https://image.tmdb.org/t/p/w1280` (backdrops).
 - Rating badge: `Math.round(vote_average * 10)`% — color ≥70 `#21d07a`, ≥40 `#d2d531`, else `#db2360`.
 - Embed servers (exact URL shapes from old `watch.js`):
-  - videasy (default): `https://player.videasy.net/{movie|tv}/{id}` (+ `/{season}/{episode}` for TV)
-  - vidfast: `https://vidfast.pro/{movie|tv}/{id}` (+ `/{season}/{episode}` for TV) + `?autoPlay=true`
+  - vidfast (default): `https://vidfast.pro/{movie|tv}/{id}` (+ `/{season}/{episode}` for TV) + `?autoPlay=true`
   - vidsrc: `https://vidsrc.to/embed/{movie|tv}/{id}` (+ `/{season}/{episode}` for TV)
 - Theme: dark by default; `localStorage` key `theme` (`'dark-mode'` | `'light-mode'`); toggle in header; no flash-of-wrong-theme on load.
 - Browse/discover/details fetches: `next: { revalidate: 3600 }`. Search and season episodes: no revalidate (live).
@@ -219,7 +218,7 @@ git add -A && git commit -m "feat: dark-default theme system with light toggle"
   - `titleOf(m: MediaItem): string`, `yearOf(m: MediaItem): string`
   - `GENRES: { slug: string; name: string; id: number }[]`, `genreBySlug(slug: string): typeof GENRES[number] | undefined`
   - `ratingPercent(v?: number): number` (0 for undefined), `ratingColor(v?: number): string`
-  - `SERVERS: { id: ServerId; name: string }[]` = videasy/vidfast/vidsrc; `buildEmbedUrl(server: ServerId, opts: { id: number; type: MediaType; season?: number; episode?: number }): string`
+  - `SERVERS: { id: ServerId; name: string }[]` = vidfast/vidsrc; `buildEmbedUrl(server: ServerId, opts: { id: number; type: MediaType; season?: number; episode?: number }): string`
   - `isMovie(item: { media_type?: string; first_air_date?: string }): boolean` (media_type `'movie'` or no first_air_date)
 
 - [ ] **Step 1: Install vitest and write failing tests**
@@ -253,8 +252,6 @@ import { describe, expect, it } from "vitest";
 import { buildEmbedUrl } from "@/lib/embed";
 
 describe("buildEmbedUrl", () => {
-  it("videasy movie", () => expect(buildEmbedUrl("videasy", { id: 550, type: "movie" })).toBe("https://player.videasy.net/movie/550"));
-  it("videasy tv with season/episode", () => expect(buildEmbedUrl("videasy", { id: 1399, type: "tv", season: 2, episode: 4 })).toBe("https://player.videasy.net/tv/1399/2/4"));
   it("vidfast adds autoplay", () => expect(buildEmbedUrl("vidfast", { id: 550, type: "movie" })).toBe("https://vidfast.pro/movie/550?autoPlay=true"));
   it("vidfast tv autoplay", () => expect(buildEmbedUrl("vidfast", { id: 1399, type: "tv", season: 1, episode: 1 })).toBe("https://vidfast.pro/tv/1399/1/1?autoPlay=true"));
   it("vidsrc uses embed path", () => expect(buildEmbedUrl("vidsrc", { id: 550, type: "movie" })).toBe("https://vidsrc.to/embed/movie/550"));
@@ -298,10 +295,9 @@ export function ratingColor(v?: number): string {
 `src/lib/embed.ts`:
 ```ts
 import type { MediaType } from "./types";
-export type ServerId = "videasy" | "vidfast" | "vidsrc";
+export type ServerId = "vidfast" | "vidsrc";
 
 export const SERVERS: { id: ServerId; name: string }[] = [
-  { id: "videasy", name: "Videasy" },
   { id: "vidfast", name: "VidFast" },
   { id: "vidsrc", name: "VidSrc" },
 ];
@@ -310,8 +306,6 @@ export function buildEmbedUrl(server: ServerId, opts: { id: number; type: MediaT
   const { id, type, season, episode } = opts;
   const tvSuffix = type === "tv" && season != null && episode != null ? `/${season}/${episode}` : "";
   switch (server) {
-    case "videasy":
-      return `https://player.videasy.net/${type}/${id}${tvSuffix}`;
     case "vidfast":
       return `https://vidfast.pro/${type}/${id}${tvSuffix}?autoPlay=true`;
     case "vidsrc":
@@ -505,7 +499,7 @@ Test a movie (e.g. `/movie/550`) and a TV show (`/tv/1399`); invalid ID → 404;
 - Consumes: `tmdbFetch`, `MediaDetails`, `EpisodeItem`, `SERVERS`, `buildEmbedUrl`, `RelatedGrid`, `DetailsPage`-style info block.
 - Produces: `<Player id type season episode />` (client), `<EpisodeList episodes season showId currentEpisode />` (client), `<WatchPage ... />` (server) used by both watch routes.
 
-- [ ] **Step 1: `Player.tsx` (client)** — props `{ id: number; type: MediaType; season?: number; episode?: number }`. State: active server, initialized from `localStorage.getItem('server')` falling back to `"videasy"`, defaulting to `"videasy"` on first visit; on change, persist and swap iframe `src` via `buildEmbedUrl`. UI: 16:9 container with the iframe (`allowFullScreen`, `referrerPolicy="origin"`), below it a "Servers" row of three buttons (active = gold). Because TV season/episode arrive as props, changing them re-embeds automatically.
+- [ ] **Step 1: `Player.tsx` (client)** — props `{ id: number; type: MediaType; season?: number; episode?: number }`. State: active server, initialized from `localStorage.getItem('server')` falling back to `"vidfast"`, defaulting to `"vidfast"` on first visit; on change, persist and swap iframe `src` via `buildEmbedUrl`. UI: 16:9 container with the iframe (`allowFullScreen`, `referrerPolicy="origin"`), below it a "Servers" row of two buttons (active = gold). Because TV season/episode arrive as props, changing them re-embeds automatically.
 
 - [ ] **Step 2: `EpisodeList.tsx` (client)** — props `{ showId: number; season: number; episodes: EpisodeItem[]; currentEpisode: number }`. Renders grid of episode cards: big episode number, name, active card highlighted (gold border/surface). Clicking navigates with `useRouter().push(`/watch/tv/${showId}?season=${season}&episode=${n}`)` — keeps URL shareable.
 

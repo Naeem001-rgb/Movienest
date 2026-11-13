@@ -54,9 +54,8 @@ Single typed module `lib/tmdb.ts` (server-only):
 
 ## Watch page behavior (preserved exactly)
 
-- Three servers as selectable buttons: **videasy** (default), **vidfast** (with `?autoPlay=true`), **vidsrc**.
+- Two servers as selectable buttons: **vidfast** (default, with `?autoPlay=true`), **vidsrc**.
 - Embed URL patterns (unchanged from current `watch.js`):
-  - videasy: `player.videasy.net/{movie|tv}/{id}` (+ `/{season}/{episode}` for TV)
   - vidfast: `vidfast.pro/{movie|tv}/{id}` (+ `/{season}/{episode}` for TV, `?autoPlay=true`)
   - vidsrc: `vidsrc.to/embed/{movie|tv}/{id}` (+ `/{season}/{episode}` for TV)
 - TV: season dropdown (seasons sorted by number, default season 1 or first available), episode list cards (number + name, active episode highlighted). Selecting an episode updates the URL and reloads the player.

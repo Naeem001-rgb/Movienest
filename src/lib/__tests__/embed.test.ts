@@ -4,9 +4,6 @@ import { buildEmbedUrl } from "@/lib/embed";
 describe("buildEmbedUrl", () => {
   it("adds a resume timestamp only on supported servers", () => {
     const opts = { id: 550, type: "movie" as const, startAt: 123.8 };
-    expect(buildEmbedUrl("videasy", opts)).toBe(
-      "https://player.videasy.net/movie/550?progress=123",
-    );
     expect(buildEmbedUrl("vidfast", opts)).toBe(
       "https://vidfast.pro/movie/550?autoPlay=true&startAt=123",
     );
@@ -18,19 +15,11 @@ describe("buildEmbedUrl", () => {
   });
   it("ignores invalid resume timestamps", () => {
     for (const startAt of [0, -1, NaN, Infinity]) {
-      expect(buildEmbedUrl("videasy", { id: 550, type: "movie", startAt })).toBe(
-        "https://player.videasy.net/movie/550",
+      expect(buildEmbedUrl("vidfast", { id: 550, type: "movie", startAt })).toBe(
+        "https://vidfast.pro/movie/550?autoPlay=true",
       );
     }
   });
-  it("videasy movie", () =>
-    expect(buildEmbedUrl("videasy", { id: 550, type: "movie" })).toBe(
-      "https://player.videasy.net/movie/550",
-    ));
-  it("videasy tv with season/episode", () =>
-    expect(buildEmbedUrl("videasy", { id: 1399, type: "tv", season: 2, episode: 4 })).toBe(
-      "https://player.videasy.net/tv/1399/2/4",
-    ));
   it("vidfast adds autoplay", () =>
     expect(buildEmbedUrl("vidfast", { id: 550, type: "movie" })).toBe(
       "https://vidfast.pro/movie/550?autoPlay=true",

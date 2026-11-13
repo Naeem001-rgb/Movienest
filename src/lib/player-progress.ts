@@ -3,14 +3,13 @@ import type { WatchMedia } from "./watch-history";
 
 // Explicit provider origins, including their documented redirect domains.
 const PLAYER_ORIGINS: Partial<Record<ServerId, string[]>> = {
-  videasy: ["https://player.videasy.net", "https://player.videasy.to"],
   vidfast: ["pro", "in", "io", "me", "net", "pm", "xyz", "vc", "bz"].map(
     (tld) => `https://vidfast.${tld}`,
   ),
 };
 
 export function supportsProgress(server: ServerId): boolean {
-  return server === "videasy" || server === "vidfast";
+  return server === "vidfast";
 }
 
 function object(value: unknown): Record<string, unknown> | null {
@@ -54,24 +53,9 @@ export function parsePlayerProgress(
     data = object(message.data);
     if (!data || !["play", "pause", "seeked", "timeupdate", "ended"].includes(String(data.event)))
       return null;
-    position = server === "videasy" ? (data.timestamp ?? data.currentTime) : data.currentTime;
+    position = data.currentTime;
     duration = data.duration;
     ended = data.event === "ended";
-  } else if (server === "videasy" && message.type === "MEDIA_DATA") {
-    const collection = object(decode(message.data));
-    if (!collection) return null;
-    // MEDIA_DATA carries the provider's library; read only the active title.
-    data =
-      Object.values(collection)
-        .map(object)
-        .find((item) => item && matches(item, media)) ?? null;
-    const progress = object(data?.progress);
-    position = progress?.watched;
-    duration = progress?.duration;
-  } else if (server === "videasy" && "timestamp" in message) {
-    data = message;
-    position = data.timestamp;
-    duration = data.duration;
   }
 
   if (

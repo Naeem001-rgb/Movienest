@@ -1,9 +1,8 @@
 import type { MediaType } from "./types";
 
-export type ServerId = "videasy" | "vidfast" | "vidsrc" | "multiembed";
+export type ServerId = "vidfast" | "vidsrc" | "multiembed";
 
 export const SERVERS: { id: ServerId; name: string }[] = [
-  { id: "videasy", name: "Videasy" },
   { id: "vidfast", name: "VidFast" },
   { id: "vidsrc", name: "VidSrc" },
   { id: "multiembed", name: "MultiEmbed" },
@@ -19,8 +18,6 @@ export function buildEmbedUrl(
   const startAt =
     Number.isFinite(opts.startAt) && opts.startAt! > 0 ? Math.floor(opts.startAt!) : 0;
   switch (server) {
-    case "videasy":
-      return `https://player.videasy.net/${type}/${id}${tvSuffix}${startAt ? `?progress=${startAt}` : ""}`;
     case "vidfast":
       return `https://vidfast.pro/${type}/${id}${tvSuffix}?autoPlay=true${startAt ? `&startAt=${startAt}` : ""}`;
     case "vidsrc":

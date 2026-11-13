@@ -84,9 +84,7 @@ function isEntry(value: unknown): value is WatchEntry {
     (e.episodeTitle === undefined ||
       (typeof e.episodeTitle === "string" && e.episodeTitle.length <= 500)) &&
     SERVERS.some((server) => server.id === e.server) &&
-    (e.progressServer === undefined ||
-      e.progressServer === "videasy" ||
-      e.progressServer === "vidfast") &&
+    (e.progressServer === undefined || e.progressServer === "vidfast") &&
     typeof e.position === "number" &&
     Number.isFinite(e.position) &&
     e.position >= 0 &&
