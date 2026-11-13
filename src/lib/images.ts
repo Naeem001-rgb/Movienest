@@ -5,6 +5,7 @@ const WIDTHS = {
   poster: [185, 342, 500, 780],
   backdrop: [300, 780, 1280],
   still: [185, 300, 780],
+  profile: [45, 185],
 } as const;
 
 export const ROW_POSTER_SIZES = "(min-width: 1024px) 240px, (min-width: 640px) 220px, 180px";

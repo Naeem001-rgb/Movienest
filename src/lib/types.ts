@@ -13,9 +13,16 @@ export interface MediaItem {
   overview?: string;
 }
 
+export interface CastMember {
+  id: number;
+  name: string;
+  character?: string;
+  profile_path?: string | null;
+}
+
 export interface MediaDetails extends MediaItem {
   genres?: { id: number; name: string }[];
-  credits?: { cast: { name: string }[] };
+  credits?: { cast: CastMember[] };
   production_countries?: { name: string }[];
   production_companies?: { name: string }[];
   seasons?: { season_number: number; name: string }[];
