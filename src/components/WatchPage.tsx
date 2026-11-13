@@ -80,7 +80,7 @@ export default function WatchPage({
         ) : null}
 
         {/* Title info */}
-        <section className="mt-10">
+        <section className="mt-10 rounded-xl bg-surface p-5 shadow-[var(--shadow)] sm:p-6">
           <h1 className="text-3xl font-extrabold text-text">{title}</h1>
           <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-text-secondary">
             <span className="font-bold" style={{ color: ratingColor(details.vote_average) }}>

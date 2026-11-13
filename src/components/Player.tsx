@@ -160,8 +160,11 @@ function PlayerSession({ media }: { media: WatchMedia }) {
         />
       </div>
 
-      <div className="mt-4 flex flex-wrap items-center gap-2">
-        <span className="mr-1 text-sm font-semibold text-text-secondary">Servers:</span>
+      <div
+        role="group"
+        aria-label="Playback providers"
+        className="mt-4 flex flex-wrap items-center gap-2"
+      >
         {SERVERS.map((s) => (
           <button
             key={s.id}
