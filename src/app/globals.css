@@ -45,6 +45,12 @@ body {
   color: var(--text);
 }
 
+@property --watch-border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
 .watch-details-panel {
   position: relative;
   isolation: isolate;
@@ -57,10 +63,30 @@ body {
   position: absolute;
   inset: 0;
   z-index: 1;
-  width: 100%;
-  height: 100%;
+  padding: 2px;
   border-radius: inherit;
+  background: conic-gradient(
+    from var(--watch-border-angle),
+    var(--watch-border-red),
+    var(--accent-bright),
+    var(--watch-border-green),
+    #2dbfc4,
+    var(--watch-border-blue),
+    #bd6bea,
+    var(--watch-border-red)
+  );
+  /* A fixed mask keeps the full perimeter colored while the gradient flows inside it. */
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
   pointer-events: none;
+  animation: watch-border-colors 8s linear infinite;
+  animation-play-state: paused;
 }
 
 .dark .watch-details-border {
@@ -69,47 +95,22 @@ body {
   --watch-border-blue: #6b8cff;
 }
 
-.watch-details-border rect {
-  x: 1px;
-  y: 1px;
-  width: calc(100% - 2px);
-  height: calc(100% - 2px);
-  rx: calc(1rem - 1px);
-  ry: calc(1rem - 1px);
-  fill: none;
-  vector-effect: non-scaling-stroke;
-}
-
-.watch-border-track {
-  stroke: var(--border);
-  stroke-width: 1px;
-}
-
-.watch-border-strip {
-  stroke-width: 2px;
-  stroke-linecap: round;
-  stroke-dasharray: 2.6 97.4;
-  stroke-dashoffset: var(--strip-offset);
-  animation: watch-border-travel 8s linear infinite;
-  animation-play-state: paused;
-}
-
-.watch-details-border[data-running="true"] .watch-border-strip {
+.watch-details-border[data-running="true"] {
   animation-play-state: running;
 }
 
-/* Explicit lengths interpolate smoothly; increasing the offset travels anticlockwise. */
-@keyframes watch-border-travel {
+/* Animate only the colors anticlockwise; the border's shape and coverage stay fixed. */
+@keyframes watch-border-colors {
   from {
-    stroke-dashoffset: var(--strip-offset);
+    --watch-border-angle: 0deg;
   }
   to {
-    stroke-dashoffset: calc(var(--strip-offset) + 100px);
+    --watch-border-angle: -360deg;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .watch-border-strip {
+  .watch-details-border {
     animation: none;
   }
 }
