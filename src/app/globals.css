@@ -45,6 +45,84 @@ body {
   color: var(--text);
 }
 
+.player-viewport {
+  --ambient-blur: clamp(28px, 5vw, 72px);
+  --ambient-spread: calc(var(--ambient-blur) * 3);
+  --ambient-top-spread: 12px;
+  position: relative;
+  isolation: isolate;
+  /* Bound the backdrop to this player so nearby page text is never sampled. */
+  clip-path: inset(calc(-1 * var(--ambient-spread)));
+}
+
+.player-ambient {
+  position: absolute;
+  inset: calc(-1 * var(--ambient-spread));
+  z-index: 1;
+  padding: var(--ambient-spread);
+  border-radius: calc(0.75rem + var(--ambient-spread));
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 400ms ease-out;
+  /* Blur the browser's rendered video, including cross-origin iframes. The
+     content-box cutout leaves the actual player and its controls untouched;
+     the other two masks feather the light into the page in both directions. */
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(
+      to bottom,
+      transparent calc(var(--ambient-spread) - var(--ambient-top-spread)),
+      #000 var(--ambient-spread),
+      #000 calc(100% - var(--ambient-spread)),
+      transparent
+    ),
+    linear-gradient(
+      to right,
+      transparent,
+      #000 var(--ambient-spread),
+      #000 calc(100% - var(--ambient-spread)),
+      transparent
+    );
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(
+      to bottom,
+      transparent calc(var(--ambient-spread) - var(--ambient-top-spread)),
+      #000 var(--ambient-spread),
+      #000 calc(100% - var(--ambient-spread)),
+      transparent
+    ),
+    linear-gradient(
+      to right,
+      transparent,
+      #000 var(--ambient-spread),
+      #000 calc(100% - var(--ambient-spread)),
+      transparent
+    );
+  -webkit-mask-composite: xor, source-in;
+  mask-composite: exclude, intersect;
+}
+
+.ambient-light-control {
+  display: none;
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .player-ambient[data-active="true"] {
+    -webkit-backdrop-filter: blur(var(--ambient-blur)) saturate(1.3);
+    backdrop-filter: blur(var(--ambient-blur)) saturate(1.3);
+    opacity: 0.45;
+  }
+
+  .dark .player-ambient[data-active="true"] {
+    opacity: 0.75;
+  }
+
+  .ambient-light-control {
+    display: inline-flex;
+  }
+}
+
 @property --watch-border-angle {
   syntax: "<angle>";
   initial-value: 0deg;
@@ -110,6 +188,10 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .player-ambient {
+    transition: none;
+  }
+
   .watch-details-border {
     animation: none;
   }

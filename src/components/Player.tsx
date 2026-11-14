@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import AmbientPlayer from "@/components/AmbientPlayer";
 import { SERVERS, buildEmbedUrl, type ServerId } from "@/lib/embed";
 import { parsePlayerProgress, supportsProgress } from "@/lib/player-progress";
 import {
@@ -147,7 +148,30 @@ function PlayerSession({ media }: { media: WatchMedia }) {
 
   return (
     <div>
-      <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-border bg-black shadow-[var(--shadow)]">
+      <AmbientPlayer
+        controls={
+          <div
+            role="group"
+            aria-label="Playback providers"
+            className="flex flex-wrap items-center gap-2"
+          >
+            {SERVERS.map((s) => (
+              <button
+                key={s.id}
+                onClick={() => switchServer(s.id)}
+                aria-pressed={server === s.id}
+                className={`min-h-11 rounded-full px-4 py-2 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
+                  server === s.id
+                    ? "bg-accent text-accent-contrast"
+                    : "border border-border bg-background text-text-secondary hover:border-accent hover:text-accent"
+                }`}
+              >
+                {s.name}
+              </button>
+            ))}
+          </div>
+        }
+      >
         <iframe
           ref={iframeRef}
           key={src}
@@ -158,28 +182,7 @@ function PlayerSession({ media }: { media: WatchMedia }) {
           referrerPolicy="origin"
           className="absolute inset-0 h-full w-full"
         />
-      </div>
-
-      <div
-        role="group"
-        aria-label="Playback providers"
-        className="mt-4 flex flex-wrap items-center gap-2"
-      >
-        {SERVERS.map((s) => (
-          <button
-            key={s.id}
-            onClick={() => switchServer(s.id)}
-            aria-pressed={server === s.id}
-            className={`min-h-11 rounded-full px-4 py-2 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
-              server === s.id
-                ? "bg-accent text-accent-contrast"
-                : "border border-border text-text-secondary hover:border-accent hover:text-accent"
-            }`}
-          >
-            {s.name}
-          </button>
-        ))}
-      </div>
+      </AmbientPlayer>
       {!supportsProgress(server) ? (
         <div className="mt-3 text-sm text-text-secondary">
           {checkpoint && checkpoint.position > 0 ? (
