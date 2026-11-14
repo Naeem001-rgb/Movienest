@@ -79,7 +79,7 @@ export default function WatchPage({
         ) : null}
 
         {/* Title info */}
-        <section className="watch-details-panel mt-10 rounded-xl bg-surface p-5 shadow-[var(--shadow)] sm:p-6 lg:p-8">
+        <section className="watch-details-panel mt-10 rounded-2xl bg-surface p-5 shadow-[var(--shadow)] sm:p-6 lg:p-8">
           <WatchDetailsBorder />
           <div
             className={`grid gap-6 ${cast.length > 0 ? "lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-8" : ""}`}
