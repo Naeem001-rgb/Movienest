@@ -17,7 +17,10 @@ export default function HeaderShell({ children }: { children: ReactNode }) {
       const currentY = Math.max(0, window.scrollY);
       if (Math.abs(currentY - previousY) < 5) return;
       const nextHidden =
-        currentY > 100 && currentY > previousY && !header.contains(document.activeElement);
+        currentY > 100 &&
+        currentY > previousY &&
+        !header.contains(document.activeElement) &&
+        !header.querySelector('[aria-expanded="true"]');
       if (hidden !== nextHidden) {
         hidden = nextHidden;
         header.style.transform = hidden ? "translateY(-100%)" : "translateY(0)";
@@ -45,7 +48,7 @@ export default function HeaderShell({ children }: { children: ReactNode }) {
   return (
     <header
       ref={headerRef}
-      className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-lg transition duration-300 motion-reduce:transition-none"
+      className="site-header sticky top-0 z-50 px-3 pb-2 pt-3 sm:px-6 sm:pt-4"
     >
       {children}
     </header>

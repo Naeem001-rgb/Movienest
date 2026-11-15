@@ -32,14 +32,18 @@ function toggle() {
   window.dispatchEvent(new Event(CHANGE_EVENT));
 }
 
-export function ThemeToggle() {
+export function ThemeToggle({ className }: { className?: string }) {
   const theme = useSyncExternalStore(subscribe, getTheme, getServerTheme);
   return (
     <button
+      type="button"
       onClick={toggle}
       aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
       title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-      className="rounded-full border border-border p-2 text-text-secondary transition hover:text-accent"
+      className={
+        className ??
+        "rounded-full border border-border p-2 text-text-secondary transition hover:text-accent"
+      }
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
