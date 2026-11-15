@@ -97,7 +97,7 @@ export default function AmbientPlayer({
           role="switch"
           aria-checked={enabled}
           onClick={toggle}
-          className="ambient-light-control ml-auto min-h-11 items-center gap-3 rounded-full bg-background px-3 py-2 text-xs font-medium text-text-secondary transition-colors hover:bg-surface hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          className="ambient-light-control ml-auto min-h-11 items-center gap-3 rounded-full border border-text-secondary/75 bg-background px-3 py-2 text-xs font-medium text-text-secondary transition-colors hover:bg-surface hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         >
           Ambient light
           <span
