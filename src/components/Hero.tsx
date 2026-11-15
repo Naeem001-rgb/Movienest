@@ -26,6 +26,10 @@ export default function Hero({ item }: { item: MediaItem }) {
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/20" />
       <div className="absolute inset-0 bg-gradient-to-r from-background/80 to-transparent" />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-background to-transparent sm:h-48"
+      />
 
       <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-16 sm:px-6">
         <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-accent">

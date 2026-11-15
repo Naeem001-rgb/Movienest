@@ -164,7 +164,11 @@ export default function Header() {
                 <path d="m6 9 6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
-            <div id="desktop-genres" className="nav-menu nav-genres" hidden={openMenu !== "genres"}>
+            <div
+              id="desktop-genres"
+              className="nav-menu nav-genres no-scrollbar"
+              hidden={openMenu !== "genres"}
+            >
               <p className="px-3 pb-2 pt-1 text-sm font-semibold text-text">Browse by genre</p>
               <ul className="nav-genre-grid">{genreLinks}</ul>
             </div>
@@ -200,7 +204,7 @@ export default function Header() {
         </div>
         <div
           id="mobile-navigation"
-          className="nav-menu nav-mobile lg:hidden"
+          className="nav-menu nav-mobile no-scrollbar lg:hidden"
           hidden={openMenu !== "mobile"}
         >
           <div className="mb-4 sm:hidden">
