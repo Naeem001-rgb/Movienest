@@ -1,67 +1,88 @@
 import Link from "next/link";
+import BackToTop from "./BackToTop";
 import Newsletter from "./Newsletter";
+
+const linkGroups = [
+  {
+    className: "footer-browse",
+    label: "Explore Movie Nest",
+    links: [
+      { href: "/", label: "Home" },
+      { href: "/movies", label: "Movies" },
+      { href: "/tv", label: "TV Shows" },
+      { href: "/search", label: "Search" },
+    ],
+  },
+  {
+    className: "footer-genres",
+    label: "Popular genres",
+    links: [
+      { href: "/genre/action", label: "Action" },
+      { href: "/genre/comedy", label: "Comedy" },
+      { href: "/genre/drama", label: "Drama" },
+      { href: "/genre/animation", label: "Animation" },
+    ],
+  },
+  {
+    className: "footer-legal",
+    label: "Legal",
+    links: [
+      { href: "/terms", label: "Terms of Service" },
+      { href: "/privacy", label: "Privacy Policy" },
+      { href: "/dmca", label: "DMCA" },
+      { href: "/contact", label: "Contact" },
+    ],
+  },
+];
 
 export default function Footer() {
   return (
-    <footer className="mt-16 border-t border-border bg-surface">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-        <div className="grid gap-10 md:grid-cols-3">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-2xl" aria-hidden="true">
-                🎬
-              </span>
-              <span className="text-lg font-bold text-text">
-                Movie <span className="text-accent">Nest</span>
-              </span>
-            </div>
-            <p className="mt-3 max-w-sm text-sm text-text-secondary">
-              Your nest for browsing and streaming movies and TV shows. Discover what&apos;s
-              trending, search for classics, and start watching in seconds.
-            </p>
-          </div>
-
-          <nav aria-label="Legal">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-text">Legal</h3>
-            <ul className="mt-3 space-y-2 text-sm">
-              <li>
-                <Link href="/contact" className="text-text-secondary transition hover:text-accent">
-                  Contact
-                </Link>
-              </li>
-              <li>
-                <Link href="/privacy" className="text-text-secondary transition hover:text-accent">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="/terms" className="text-text-secondary transition hover:text-accent">
-                  Terms of Service
-                </Link>
-              </li>
-              <li>
-                <Link href="/dmca" className="text-text-secondary transition hover:text-accent">
-                  DMCA
-                </Link>
-              </li>
-            </ul>
-          </nav>
-
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-text">
-              Stay updated
-            </h3>
-            <p className="mt-3 text-sm text-text-secondary">
-              Get notified about new releases and trending titles.
-            </p>
-            <Newsletter />
-          </div>
+    <footer className="site-footer">
+      <div className="footer-panel">
+        <div className="footer-brand">
+          <Link href="/" className="footer-wordmark" aria-label="Movie Nest home">
+            Movie <span>Nest</span>
+          </Link>
+          <p>Your nest for movies and TV shows.</p>
         </div>
 
-        <p className="mt-10 border-t border-border pt-6 text-center text-xs text-text-secondary">
-          © {new Date().getFullYear()} Movie Nest. All trademarks and media belong to their
-          respective owners.
-        </p>
+        {linkGroups.map(({ className, label, links }) => (
+          <nav key={label} className={`footer-links ${className}`} aria-label={label}>
+            <ul>
+              {links.map(({ href, label }) => (
+                <li key={href}>
+                  <Link href={href} prefetch={false}>
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))}
+
+        <section className="footer-newsletter" aria-labelledby="footer-newsletter-title">
+          <h2 id="footer-newsletter-title">
+            Movie Nest
+            <br />
+            in your mailbox
+          </h2>
+          <Newsletter />
+        </section>
+
+        <div className="footer-contact">
+          <a className="footer-email" href="mailto:support@movienest.com">
+            support@movienest.com
+          </a>
+          <p className="footer-copyright">
+            © {new Date().getFullYear()} Movie Nest.
+            <br />
+            All trademarks and media belong to their respective owners.
+          </p>
+        </div>
+
+        <div className="footer-top">
+          <BackToTop />
+        </div>
       </div>
     </footer>
   );

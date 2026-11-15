@@ -17,33 +17,50 @@ export default function Newsletter() {
   };
 
   return (
-    <>
-      {toast && (
-        <div
-          role="status"
-          className="fixed right-5 top-20 z-[60] rounded-lg px-5 py-3 text-sm font-medium text-white shadow-[var(--shadow)]"
-          style={{ backgroundColor: toast.kind === "success" ? "#28a745" : "#dc3545" }}
-        >
-          {toast.message}
-        </div>
-      )}
-      <div className="mt-3 flex gap-2">
+    <form
+      className="footer-subscribe"
+      noValidate
+      onSubmit={(event) => {
+        event.preventDefault();
+        subscribe();
+      }}
+    >
+      <div className="footer-email-field">
         <input
           type="email"
+          name="email"
+          autoComplete="email"
+          required
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && subscribe()}
+          onChange={(event) => {
+            setEmail(event.target.value);
+            setToast(null);
+          }}
           placeholder="Your email address"
           aria-label="Email address for newsletter"
-          className="w-full rounded-full border border-border bg-background px-4 py-2 text-sm text-text placeholder:text-text-secondary focus:border-accent focus:outline-none"
+          aria-invalid={toast?.kind === "error"}
+          aria-describedby="newsletter-feedback"
         />
-        <button
-          onClick={subscribe}
-          className="shrink-0 rounded-full bg-accent px-4 py-2 text-sm font-semibold text-accent-contrast transition hover:opacity-90"
-        >
-          Subscribe
+        <button type="submit" aria-label="Subscribe to newsletter">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14m-6-6 6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </button>
       </div>
-    </>
+      <p
+        id="newsletter-feedback"
+        className="footer-newsletter-feedback"
+        role="status"
+        data-kind={toast?.kind}
+      >
+        {toast?.message}
+      </p>
+    </form>
   );
 }
