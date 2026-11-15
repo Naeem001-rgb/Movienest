@@ -82,7 +82,7 @@ export default function WatchPage({
         <section className="watch-details-panel mt-10 rounded-2xl bg-surface p-5 shadow-[var(--shadow)] sm:p-6 lg:p-8">
           <WatchDetailsBorder />
           <div
-            className={`grid gap-6 ${cast.length > 0 ? "lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-8" : ""}`}
+            className={`grid gap-6 ${cast.length > 0 ? "lg:grid-cols-[minmax(0,1.25fr)_minmax(24rem,1fr)] lg:gap-8" : ""}`}
           >
             <div className="min-w-0">
               <h1 className="text-balance text-3xl font-extrabold text-text">{title}</h1>
@@ -100,14 +100,14 @@ export default function WatchPage({
             {cast.length > 0 ? (
               <aside
                 aria-labelledby="watch-cast-heading"
-                className="border-t border-border pt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0"
+                className="min-w-0 border-t border-border pt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0"
               >
                 <h2 id="watch-cast-heading" className="mb-4 text-base font-semibold text-text">
                   Cast
                 </h2>
-                <ul className="grid gap-x-6 gap-y-3 sm:grid-cols-2 lg:grid-cols-1">
+                <ul className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
                   {cast.map((member) => (
-                    <li key={member.id} className="flex items-center gap-3">
+                    <li key={member.id} className="flex min-w-0 items-center gap-3">
                       <CastPortrait name={member.name} profilePath={member.profile_path} />
                       <div className="min-w-0 wrap-anywhere">
                         <p className="text-sm font-semibold leading-snug text-text">
