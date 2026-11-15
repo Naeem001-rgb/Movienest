@@ -237,33 +237,35 @@ export default function Header() {
             </div>
           </div>
         </nav>
-        <div className="ml-auto hidden min-w-0 sm:block">
-          <HeaderSearch id="site-search" onSearch={closeMenu} expandable />
-        </div>
-        <div className="ml-auto flex shrink-0 items-center gap-1 sm:ml-0">
-          <ThemeToggle className="nav-icon-button" />
-          <button
-            ref={mobileTrigger}
-            type="button"
-            className="nav-icon-button nav-mobile-trigger"
-            aria-label={openMenu === "mobile" ? "Close menu" : "Open menu"}
-            aria-expanded={openMenu === "mobile"}
-            aria-controls="mobile-navigation"
-            onClick={() => setOpenMenu(openMenu === "mobile" ? null : "mobile")}
-          >
-            <svg
-              className="nav-menu-icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              aria-hidden="true"
+        <div className="ml-auto flex min-w-0 items-center gap-3">
+          <div className="hidden min-w-0 sm:block">
+            <HeaderSearch id="site-search" onSearch={closeMenu} expandable />
+          </div>
+          <div className="flex shrink-0 items-center gap-1">
+            <ThemeToggle className="nav-icon-button" />
+            <button
+              ref={mobileTrigger}
+              type="button"
+              className="nav-icon-button nav-mobile-trigger"
+              aria-label={openMenu === "mobile" ? "Close menu" : "Open menu"}
+              aria-expanded={openMenu === "mobile"}
+              aria-controls="mobile-navigation"
+              onClick={() => setOpenMenu(openMenu === "mobile" ? null : "mobile")}
             >
-              <path d="M5 8h14" />
-              <path d="M5 16h14" />
-            </svg>
-          </button>
+              <svg
+                className="nav-menu-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                aria-hidden="true"
+              >
+                <path d="M5 8h14" />
+                <path d="M5 16h14" />
+              </svg>
+            </button>
+          </div>
         </div>
         <div
           id="mobile-navigation"

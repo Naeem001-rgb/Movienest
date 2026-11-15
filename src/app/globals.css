@@ -355,6 +355,20 @@ body {
 }
 
 @media (min-width: 1024px) {
+  .site-nav {
+    display: grid;
+    grid-template-columns: minmax(max-content, 1fr) max-content minmax(max-content, 1fr);
+    transition: grid-template-columns 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .site-nav:has(.nav-search-expandable[data-expanded="true"]) {
+    grid-template-columns: minmax(max-content, 0fr) max-content minmax(max-content, 1fr);
+  }
+
+  .nav-brand {
+    justify-self: start;
+  }
+
   .nav-mobile-trigger {
     display: none;
   }
@@ -362,6 +376,7 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .site-header,
+  .site-nav,
   .nav-search-expandable,
   .nav-label-track,
   .nav-chevron,
