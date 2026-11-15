@@ -26,26 +26,89 @@ function RollingLabel({ children }: { children: string }) {
   );
 }
 
-function HeaderSearch({ id, onSearch }: { id: string; onSearch: () => void }) {
+function HeaderSearch({
+  id,
+  onSearch,
+  expandable = false,
+}: {
+  id: string;
+  onSearch: () => void;
+  expandable?: boolean;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const isOpen = !expandable || expanded;
+
+  useEffect(() => {
+    if (!expandable || !expanded) return;
+    inputRef.current?.focus();
+    const close = (event: PointerEvent) => {
+      if (!formRef.current?.contains(event.target as Node)) setExpanded(false);
+    };
+    document.addEventListener("pointerdown", close);
+    return () => document.removeEventListener("pointerdown", close);
+  }, [expandable, expanded]);
+
+  const icon = (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <circle cx="10.5" cy="10.5" r="6.5" />
+      <path d="m16 16 4.5 4.5" strokeLinecap="round" />
+    </svg>
+  );
+
   return (
-    <Form action="/search" className="nav-search" role="search" onSubmit={onSearch}>
+    <Form
+      ref={formRef}
+      action="/search"
+      className={`nav-search${expandable ? " nav-search-expandable" : ""}`}
+      data-expanded={isOpen}
+      role="search"
+      onSubmit={() => {
+        onSearch();
+        setExpanded(false);
+        inputRef.current?.blur();
+      }}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setExpanded(false);
+      }}
+      onKeyDown={(event) => {
+        if (!expandable || !expanded || event.key !== "Escape") return;
+        event.preventDefault();
+        event.stopPropagation();
+        setExpanded(false);
+        triggerRef.current?.focus();
+      }}
+    >
       <label htmlFor={id} className="sr-only">
         Search movies and TV shows
       </label>
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        aria-hidden="true"
-      >
-        <circle cx="10.5" cy="10.5" r="6.5" />
-        <path d="m16 16 4.5 4.5" strokeLinecap="round" />
-      </svg>
+      {expandable ? (
+        <button
+          ref={triggerRef}
+          type={expanded ? "submit" : "button"}
+          className="nav-search-trigger"
+          aria-label={expanded ? "Submit search" : "Open search"}
+          aria-expanded={expanded}
+          aria-controls={id}
+          onClick={(event) => {
+            if (expanded) return;
+            event.preventDefault();
+            setExpanded(true);
+          }}
+        >
+          {icon}
+        </button>
+      ) : (
+        icon
+      )}
       <input
+        ref={inputRef}
         id={id}
         type="search"
         name="q"
+        disabled={!isOpen}
         maxLength={MAX_SEARCH_LENGTH}
         required
         placeholder="Search movies & shows…"
@@ -174,8 +237,8 @@ export default function Header() {
             </div>
           </div>
         </nav>
-        <div className="ml-auto hidden min-w-0 max-w-72 flex-1 sm:block">
-          <HeaderSearch id="site-search" onSearch={closeMenu} />
+        <div className="ml-auto hidden min-w-0 sm:block">
+          <HeaderSearch id="site-search" onSearch={closeMenu} expandable />
         </div>
         <div className="ml-auto flex shrink-0 items-center gap-1 sm:ml-0">
           <ThemeToggle className="nav-icon-button" />
