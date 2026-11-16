@@ -84,25 +84,21 @@ function HeaderSearch({
       <label htmlFor={id} className="sr-only">
         Search movies and TV shows
       </label>
-      {expandable ? (
-        <button
-          ref={triggerRef}
-          type={expanded ? "submit" : "button"}
-          className="nav-search-trigger"
-          aria-label={expanded ? "Submit search" : "Open search"}
-          aria-expanded={expanded}
-          aria-controls={id}
-          onClick={(event) => {
-            if (expanded) return;
-            event.preventDefault();
-            setExpanded(true);
-          }}
-        >
-          {icon}
-        </button>
-      ) : (
-        icon
-      )}
+      <button
+        ref={triggerRef}
+        type={expandable && !expanded ? "button" : "submit"}
+        className="nav-search-trigger"
+        aria-label={expandable && !expanded ? "Open search" : "Submit search"}
+        aria-expanded={expandable ? expanded : undefined}
+        aria-controls={expandable ? id : undefined}
+        onClick={(event) => {
+          if (!expandable || expanded) return;
+          event.preventDefault();
+          setExpanded(true);
+        }}
+      >
+        {icon}
+      </button>
       <input
         ref={inputRef}
         id={id}
@@ -242,7 +238,7 @@ export default function Header() {
             <HeaderSearch id="site-search" onSearch={closeMenu} expandable />
           </div>
           <div className="flex shrink-0 items-center gap-1">
-            <ThemeToggle className="nav-icon-button" />
+            <ThemeToggle className="nav-icon-button nav-theme-toggle" />
             <button
               ref={mobileTrigger}
               type="button"
