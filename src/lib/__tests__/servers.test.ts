@@ -1,17 +1,16 @@
 import { describe, expect, it } from "vitest";
 import { titleOf, yearOf, isMovie, hrefFor } from "@/lib/servers";
-import type { MediaItem } from "@/lib/types";
 
 describe("titleOf / yearOf", () => {
   it("prefers title then name", () => {
-    expect(titleOf({ id: 1, title: "Fight Club" } as MediaItem)).toBe("Fight Club");
-    expect(titleOf({ id: 1, name: "Game of Thrones" } as MediaItem)).toBe("Game of Thrones");
-    expect(titleOf({ id: 1 } as MediaItem)).toBe("Untitled");
+    expect(titleOf({ id: 1, title: "Fight Club" })).toBe("Fight Club");
+    expect(titleOf({ id: 1, name: "Game of Thrones" })).toBe("Game of Thrones");
+    expect(titleOf({ id: 1 })).toBe("Untitled");
   });
   it("reads release_date or first_air_date year", () => {
-    expect(yearOf({ id: 1, release_date: "1999-10-15" } as MediaItem)).toBe("1999");
-    expect(yearOf({ id: 1, first_air_date: "2011-04-17" } as MediaItem)).toBe("2011");
-    expect(yearOf({ id: 1 } as MediaItem)).toBe("N/A");
+    expect(yearOf({ id: 1, release_date: "1999-10-15" })).toBe("1999");
+    expect(yearOf({ id: 1, first_air_date: "2011-04-17" })).toBe("2011");
+    expect(yearOf({ id: 1 })).toBe("N/A");
   });
 });
 
@@ -26,9 +25,7 @@ describe("isMovie", () => {
 
 describe("hrefFor", () => {
   it("links movies to /movie/:id", () =>
-    expect(hrefFor({ id: 550, media_type: "movie", title: "Fight Club" } as MediaItem)).toBe(
-      "/movie/550",
-    ));
+    expect(hrefFor({ id: 550, media_type: "movie", title: "Fight Club" })).toBe("/movie/550"));
   it("links tv to /tv/:id", () =>
-    expect(hrefFor({ id: 1399, media_type: "tv", name: "GoT" } as MediaItem)).toBe("/tv/1399"));
+    expect(hrefFor({ id: 1399, media_type: "tv", name: "GoT" })).toBe("/tv/1399"));
 });

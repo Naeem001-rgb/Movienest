@@ -4,7 +4,7 @@ import type { MediaItem, Paged } from "@/lib/types";
 import { SITE_URL } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const staticEntries: MetadataRoute.Sitemap = [
+  const entries: MetadataRoute.Sitemap = [
     "",
     "/movies",
     "/tv",
@@ -19,8 +19,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: path === "" ? 1 : 0.7,
   }));
 
-  const entries: MetadataRoute.Sitemap = [...staticEntries];
-
   try {
     const [trending, popularMovies, popularTv] = await Promise.all([
       tmdbFetch<Paged<MediaItem>>("/trending/all/week"),
@@ -30,9 +28,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     for (const item of trending.results) {
       if (item.media_type !== "movie" && item.media_type !== "tv") continue;
-      const type = item.media_type === "tv" ? "tv" : "movie";
       entries.push({
-        url: `${SITE_URL}/${type}/${item.id}`,
+        url: `${SITE_URL}/${item.media_type}/${item.id}`,
         changeFrequency: "weekly",
         priority: 0.8,
       });

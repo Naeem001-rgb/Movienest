@@ -8,7 +8,7 @@ export default function Newsletter() {
   const [toast, setToast] = useState<{ kind: "success" | "error"; message: string } | null>(null);
 
   const subscribe = () => {
-    if (email.trim() && isValidEmail(email.trim())) {
+    if (isValidEmail(email.trim())) {
       setToast({ kind: "success", message: "Thank you for subscribing! We'll keep you updated." });
       setEmail("");
     } else {

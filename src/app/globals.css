@@ -23,7 +23,6 @@
   --text-secondary: #9aa3b2;
   --accent: #e8b931;
   --accent-bright: #f0c94a;
-  --accent-contrast: #16181d;
   --border: rgba(255, 255, 255, 0.09);
   --shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
@@ -35,7 +34,6 @@
   --color-text: var(--text);
   --color-text-secondary: var(--text-secondary);
   --color-accent: var(--accent);
-  --color-accent-bright: var(--accent-bright);
   --color-accent-contrast: var(--accent-contrast);
   --color-border: var(--border);
 }

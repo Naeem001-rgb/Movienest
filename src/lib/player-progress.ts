@@ -27,7 +27,7 @@ function decode(value: unknown): unknown {
   }
 }
 
-export interface PlayerProgress {
+interface PlayerProgress {
   position: number;
   duration: number;
   ended: boolean;

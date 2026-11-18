@@ -13,7 +13,7 @@ export interface MediaItem {
   overview?: string;
 }
 
-export interface CastMember {
+interface CastMember {
   id: number;
   name: string;
   character?: string;

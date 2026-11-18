@@ -42,7 +42,7 @@ export default function MediaCard({
         )}
         {item.vote_average ? (
           <span
-            className="absolute bottom-2 right-2 flex h-9 w-9 items-center justify-center rounded-full border-2 text-[11px] font-bold text-white"
+            className="absolute bottom-2 right-2 flex h-9 w-9 items-center justify-center rounded-full border-2 text-[11px] font-bold"
             style={{
               borderColor: ratingColor(item.vote_average),
               backgroundColor: "rgba(0,0,0,0.65)",

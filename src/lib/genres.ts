@@ -1,4 +1,4 @@
-export interface Genre {
+interface Genre {
   slug: string;
   name: string;
   id: number;
@@ -46,7 +46,7 @@ export function genreBySlug(slug: string): Genre | undefined {
 }
 
 // Countries offered by the original COUNTRIES dropdown (ISO 3166-1 codes).
-export const COUNTRIES: { code: string; name: string }[] = [
+const COUNTRIES: { code: string; name: string }[] = [
   { code: "US", name: "United States" },
   { code: "GB", name: "United Kingdom" },
   { code: "IN", name: "India" },
