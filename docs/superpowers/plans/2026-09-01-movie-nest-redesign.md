@@ -204,7 +204,7 @@ git add -A && git commit -m "feat: dark-default theme system with light toggle"
 **Files:**
 - Create: `src/lib/types.ts`, `src/lib/tmdb.ts`, `src/lib/genres.ts`, `src/lib/rating.ts`, `src/lib/embed.ts`, `src/lib/servers.ts`
 - Create: `src/lib/__tests__/genres.test.ts`, `src/lib/__tests__/rating.test.ts`, `src/lib/__tests__/embed.test.ts`
-- Create: `.env.local` (gitignored) with `TMDB_API_KEY=REDACTED_TMDB_API_KEY`
+- Create: `.env.local` (gitignored) with `TMDB_API_KEY=`
 
 **Interfaces:**
 - Produces (used by every page task):
@@ -357,7 +357,7 @@ export async function tmdbFetch<T>(path: string, params: Record<string, string> 
 }
 ```
 
-`.env.local`: `TMDB_API_KEY=REDACTED_TMDB_API_KEY` (confirm `.gitignore` covers `.env*`; if it covers all env files, add `!.env.example` and create `.env.example` with an empty `TMDB_API_KEY=`).
+`.env.local`: `TMDB_API_KEY=` (confirm `.gitignore` covers `.env*`; if it covers all env files, add `!.env.example` and create `.env.example` with an empty `TMDB_API_KEY=`).
 
 - [ ] **Step 4: Run tests — verify pass**
 
