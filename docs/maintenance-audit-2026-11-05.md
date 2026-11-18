@@ -2,7 +2,7 @@
 
 ## Scope
 
-Audited the Movie Nest application, its routes, shared components and libraries, public assets, configuration, and dependency tree. The `impeccable/`, `skills/`, and `taste-skill/` projects are unrelated and were excluded according to AGENTS.md. Existing Continue Watching work was preserved.
+Audited the Movie Nest application, its routes, shared components and libraries, public assets, configuration, and dependency tree. At the time of this audit, the unrelated `impeccable/`, `skills/`, and `taste-skill/` projects were present and excluded according to AGENTS.md. They have since been removed; development skills live in the CLI outside this repository. Existing Continue Watching work was preserved.
 
 All 52 original application modules had consumers or framework entry-point roles. No working route or component was removed merely because it looked old.
 

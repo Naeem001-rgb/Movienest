@@ -18,7 +18,7 @@ Rebuild Movie Nest as a modern Next.js + TypeScript + Tailwind CSS application, 
 
 - No backend accounts, auth, database, or user watchlists.
 - Newsletter signup stays cosmetic (client-side "thank you" only), as today.
-- No changes to `impeccable/`, `skills/`, `taste-skill/` (unrelated vendored projects).
+- Development skills live in the CLI outside this repository. The old preservation rule for `impeccable/`, `skills/`, and `taste-skill/` is superseded; do not restore them.
 
 ## Technology
 

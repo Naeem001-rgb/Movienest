@@ -33,5 +33,5 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "impeccable", "skills", "taste-skill"]
+  "exclude": ["node_modules"]
 }

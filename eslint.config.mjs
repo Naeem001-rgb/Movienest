@@ -5,13 +5,7 @@ import nextTs from "eslint-config-next/typescript";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  globalIgnores([
-    "impeccable/**",
-    "skills/**",
-    "taste-skill/**",
-    ".playwright-cli/**",
-    ".impeccable/**",
-  ]),
+  globalIgnores([".playwright-cli/**"]),
 ]);
 
 export default eslintConfig;

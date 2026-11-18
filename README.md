@@ -88,7 +88,7 @@ Switching to MultiEmbed or VidSrc preserves the last measured timestamp and its 
 - Metadata and page requests share a request-scoped cache. Catalog requests time out after 10 seconds; optional recommendations stream independently and cannot interrupt playback. Search and episode data remain live.
 - Route IDs, repeated search parameters, page numbers, and episode selections are validated centrally in `src/lib/params.ts`. Only real episodes from the selected season can be selected.
 - Security headers disable MIME sniffing, cross-origin framing, plugins, off-site form submission, and camera/microphone/location access. The CSP intentionally allows the existing inline Next.js bootstrap and third-party players; it is not a nonce-based script policy.
-- ESLint, TypeScript, Vitest, Tailwind, and Prettier are scoped to the application, excluding the unrelated vendored skill projects. Historical documents and agent guidance are retained.
+- ESLint, TypeScript, Vitest, Tailwind, and Prettier are scoped to the application. Development skills live in the CLI outside this repository. Historical documents and agent guidance are retained.
 - ESLint stays on version 9 and TypeScript on version 6 because the installed lint plugins do not support the newer major releases. The scoped `minimatch` override fixes [GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249) in the TypeScript ESLint dependency; remove it when that dependency adopts a patched version.
 
 Run `npm ci`, the checks above, and `npm audit` after dependency changes. See [the November 2026 audit](docs/maintenance-audit-2026-11-05.md) for the measured results and verification scope. Third-party player code is outside this repository and cannot be certified by these checks.

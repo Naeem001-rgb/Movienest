@@ -57,11 +57,11 @@ Single `tmdbFetch<T>(path, params, revalidate=3600)` helper. Defaults to 1h reva
 
 ### Tests
 
-Vitest covers pure logic only: `src/lib/__tests__/` (rating, embed URL builders, genre map, title/year/type helpers). `vitest.config.ts` scopes tests to `src/**` (the vendored folders contain their own test suites that must not run).
+Vitest covers pure logic only: `src/lib/__tests__/` (rating, embed URL builders, genre map, title/year/type helpers). `vitest.config.mts` scopes tests to `src/**`.
 
-## Not part of the site
+## Development skills
 
-`impeccable/`, `skills/`, and `taste-skill/` are vendored, unrelated plugin/skill projects — ignore them when working on Movie Nest. They're excluded from `tsconfig.json` and Vitest for that reason.
+Development skills live in the CLI's skill directories outside this repository. Do not vendor `impeccable/`, `skills/`, or `taste-skill/` into Movie Nest.
 
 <!-- BEGIN:nextjs-agent-rules -->
 
