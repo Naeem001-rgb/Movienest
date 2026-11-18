@@ -1,67 +1,53 @@
 # AGENTS.md
 
-This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
-
-## Overview
-
-Movie Nest is a movie/TV browsing and streaming site built with **Next.js (App Router) + TypeScript + Tailwind CSS v4**. All catalog data comes live from the TMDB API at runtime, fetched **server-side only** (the API key lives in the `TMDB_API_KEY` env var and is never sent to the browser). Playback embeds third-party players in iframes. Deployed on Vercel.
+Movie Nest uses Next.js App Router, TypeScript, and Tailwind CSS v4, deployed on Vercel.
+See README.md for setup and product behavior. Use Node.js 22.12 or later.
 
 ## Commands
 
 ```bash
-npm run dev     # dev server on :3000
-npm run build   # production build (also type-checks; fails on TS errors)
-npm run start   # serve the production build
-npm test        # Vitest unit tests (pure-logic libs only)
+npm run dev           # development server on :3000
+npm run build         # production build, including TypeScript checks
+npm run start         # serve the production build
+npm test              # Vitest library tests
+npm run lint
+npm run typecheck     # generate Next route types, then check TypeScript
+npm run format:check
 ```
 
-`.env.local` must contain `TMDB_API_KEY` (see `.env.example`). Without it, pages error at request time.
+## Project rules
 
-## Architecture
-
-### Routes (src/app)
-
-- `/` — home: trending hero + MediaRow rows (Trending, Popular Movies, Airing TV, Top Rated, Action/Comedy/Horror). Statically prerendered with 1h revalidate.
-- `/movies`, `/tv` — browse grids with `?page=` pagination, via shared `<BrowsePage>`.
-- `/genre/[slug]`, `/country/[code]` — discover pages; slugs/codes resolved against `src/lib/genres.ts` (`genreBySlug`, `countryByCode`); unknown ones `notFound()`.
-- `/search?q=` — live multi-search (`/search/multi`, `revalidate: 0`), filtered to movie/tv with posters.
-- `/movie/[id]`, `/tv/[id]` — details pages; shared `<DetailsPage details={…} type={…}>` + `<RelatedGrid>` (falls back to `/popular` when `similar` is empty).
-- `/watch/movie/[id]`, `/watch/tv/[id]?season=&episode=` — player pages. Season/episode live in the URL (shareable); validated against the show's actual seasons/episodes with graceful defaults.
-- `/contact`, `/privacy`, `/terms`, `/dmca` — legal pages (static wording preserved from the old site).
-- `src/app/movie.html/route.ts` and `watch.html/route.ts` — legacy URL redirect handlers that read `?id=&type=&season=&episode=`; plain `.html` paths redirect via `next.config.ts`.
-- `robots.ts`, `sitemap.ts` — SEO files generated at the app root (TMDB-driven sitemap).
-
-### Data layer (src/lib/tmdb.ts)
-
-Single `tmdbFetch<T>(path, params, revalidate=3600)` helper. Defaults to 1h revalidation; search and season episode lists pass `0` for live data. Throws `TmdbNotFoundError` on TMDB 404 — check with `isNotFound(err)` and call `notFound()`.
-
-**Important gotchas (learned the hard way):**
-- `isNotFound` uses a property check (`err.tmdbNotFound`), not `instanceof` — the bundler duplicates the class into per-route chunks so cross-chunk `instanceof` fails.
-- A page's `try/catch` does **not** catch errors thrown by async child server components (they reject during render, outside the parent's synchronous frame). Fetch data in the page component, then pass it down as props — that's why `DetailsPage`/`WatchPage`/`BrowsePage` take data or params and pages own the fetching.
-
-### Watch / embed servers (src/lib/embed.ts)
-
-`buildEmbedUrl(server, { id, type, season?, episode? })` with `SERVERS = vidfast (default) | vidsrc`. URL shapes:
-- vidfast: `vidfast.pro/{movie|tv}/{id}` (+ TV suffix) + `?autoPlay=true`
-- vidsrc: `vidsrc.to/embed/{movie|tv}/{id}` (+ TV suffix)
-
-`Player.tsx` (client) renders the iframe for the active server, defaulting to vidfast and restoring the visitor's saved preference from `localStorage` key `server` after hydration. Episode/season changes navigate (URL is state), which re-renders the player server-side.
-
-### Conventions
-
-- Ratings are TMDB `vote_average × 10` as a percentage (`ratingPercent`), colored by `ratingColor()`: ≥70 `#21d07a`, ≥40 `#d2d531`, else `#db2360`.
-- Theme: dark by default, class-based (`html.dark`), toggle in Header, persisted in `localStorage` key `theme` with values `'dark-mode'`/`'light-mode'` (same values the old static site used). A tiny inline script in `layout.tsx` applies the class pre-hydration to avoid flash.
-- Design tokens are CSS variables in `globals.css` (`--background`, `--surface`, `--text`, `--accent`, …) exposed to Tailwind via `@theme inline` — use classes like `bg-surface`, `text-text-secondary`, `border-border`, `text-accent`.
-- Media type inference: `isMovie()` checks `media_type === 'movie'` first, then absence of `first_air_date`. `hrefFor`/`watchHrefFor` build details/watch links; watch-page related cards pass `linkToWatch` to stay in the player context.
-- Newsletter form in Footer is cosmetic only (client-side toast) — intentionally, same as the old site.
-
-### Tests
-
-Vitest covers pure logic only: `src/lib/__tests__/` (rating, embed URL builders, genre map, title/year/type helpers). `vitest.config.mts` scopes tests to `src/**`.
-
-## Development skills
-
-Development skills live in the CLI's skill directories outside this repository. Do not vendor `impeccable/`, `skills/`, or `taste-skill/` into Movie Nest.
+- Keep TMDB access in server-only `src/lib/tmdb.ts`. Store `TMDB_API_KEY` in ignored
+  `.env.local`; never put credentials or credential-bearing URLs in code, docs, or logs.
+  Catalog requests default to one-hour revalidation, with React request caching and a
+  ten-second timeout. Search and season episode requests use `revalidate: 0`.
+- Handle TMDB 404s with `isNotFound(err)` and `notFound()`. Keep the property marker:
+  cross-chunk `instanceof` checks fail. When a route handles an expected fetch error,
+  await that fetch inside the route; its `try/catch` cannot catch later async-child
+  render failures. Optional `RelatedGrid` failures stay isolated in its own handler
+  and `Suspense` boundary.
+- Use `src/lib/params.ts` for IDs and query values, including repeated parameters,
+  pagination bounds, and selection from actual available TV seasons/episodes. TV
+  season/episode state belongs in the URL. Preserve legacy redirects, legal wording,
+  security headers, metadata, Google verification, and sitemap fallback/deduplication.
+- Use `buildEmbedUrl` in `src/lib/embed.ts` for VidFast, VidSrc, and MultiEmbed;
+  their URL formats differ. Mount the iframe only after restoring the matching saved
+  provider/checkpoint, falling back to the `server` preference or VidFast. Only
+  VidFast supports measured progress and `startAt`; other providers save bookmarks.
+- Preserve player-message checks for the active iframe, exact allowed origin, media
+  identity, and finite valid times. Keep watch-history validation, pending-progress
+  flushing, removal/completion handling, cross-tab synchronization, and memory fallback.
+  Retain the `movienest:continue-watching:v1` storage schema and saved checkpoints.
+- Preserve the pre-hydration dark-theme script and `theme` storage values
+  `dark-mode`/`light-mode`. Theme must tolerate blocked storage and sync across tabs.
+  Ambient light uses `movienest:ambient-light`; preserve reduced-motion defaults,
+  browser-support checks, visibility handling, and fullscreen suspension.
+- Reuse `servers.ts`, `rating.ts`, `images.ts`, and CSS design tokens for media links,
+  type inference, ratings, and image sizing. Newsletter signup remains cosmetic.
+- Keep development skills in CLI directories outside this repository. Do not vendor
+  skill repositories or add duplicate product/planning documents. Tests are scoped to
+  `src/**/*.test.{ts,tsx}` by `vitest.config.mts`; use the existing library tests for
+  logic changes.
 
 <!-- BEGIN:nextjs-agent-rules -->
 
