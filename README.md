@@ -66,9 +66,11 @@ Ratings shown on cards are TMDB community scores (`vote_average × 10` as a perc
 
 ## Ambient light
 
-The watch player casts a soft, live glow from the colors along the visible video's edges. A masked CSS `backdrop-filter` lets the browser diffuse the rendered iframe directly, keeping the picture and controls sharp. It needs no frame access, screen capture, duplicate player, extra media requests, or JavaScript render loop. Letterboxing and dark scenes naturally dim the light.
+The watch player casts a broad, soft glow around all four edges in dark mode. A masked CSS `backdrop-filter` lets the browser diffuse the rendered iframe directly, keeping the picture and controls sharp. It needs no frame access, screen capture, duplicate player, extra media requests, or JavaScript render loop. Dark scenes naturally dim the light; letterboxing can weaken the glow along the black bars.
 
-The **Ambient light** switch beside the playback providers persists under `movienest:ambient-light`. It defaults off for reduced-motion preferences unless the visitor explicitly enables it. Filtering stops when the player is offscreen, the tab is hidden, or fullscreen is active. Browsers without backdrop-filter support retain the normal player and hide the switch.
+YouTube's [ambient mode](https://blog.youtube/inside-youtube/youtube-ambient-color-mode-visual-language-redesign/) projects blurred storyboard images into the surrounding page and crossfades between them. Movie Nest's current third-party player integrations do not expose those images or readable video frames, so its live edge diffusion cannot reproduce YouTube's full-scene projection or temporal crossfades.
+
+The **Ambient light** switch beside the playback providers persists under `movienest:ambient-light`. It defaults off for reduced-motion preferences unless the visitor explicitly enables it, and an explicit choice survives motion-preference changes even when storage is blocked. Filtering stops in light mode, when the player is offscreen, the tab is hidden, or fullscreen is active. Returning to dark mode restores the selected preference. Browsers without backdrop-filter support retain the normal player and hide the switch.
 
 Implementation: `AmbientPlayer.tsx` owns the player presentation, preference, and visibility handling; `globals.css` defines the masked light spread. Keep the light after the iframe in the same stacking context: moving it behind the player or into a separately masked ancestor prevents it from sampling the video.
 

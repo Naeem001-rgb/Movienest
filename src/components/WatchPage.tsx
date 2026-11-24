@@ -33,18 +33,49 @@ export default function WatchPage({
     <div className="overflow-x-clip pb-8">
       <div className="mx-auto max-w-7xl px-4 pt-6 sm:px-6">
         {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="mb-4 text-sm text-text-secondary">
-          <Link href={type === "tv" ? "/tv" : "/movies"} className="transition hover:text-accent">
-            {type === "tv" ? "TV Shows" : "Movies"}
-          </Link>
-          <span className="mx-2">›</span>
-          <span className="text-text">{title}</span>
-          {season != null && episode != null ? (
-            <span className="text-text-secondary">
-              {" "}
-              · S{season} E{episode}
-            </span>
-          ) : null}
+        <nav aria-label="Breadcrumb" className="relative z-10 mb-3">
+          <ol className="flex min-w-0 items-start gap-2.5 text-sm sm:gap-3">
+            <li className="flex shrink-0 items-center gap-2.5 sm:gap-3">
+              <Link
+                href={type === "tv" ? "/tv" : "/movies"}
+                className="group -my-2 inline-flex min-h-11 items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text"
+              >
+                <span className="inline-flex h-7 items-center rounded-full border border-accent/30 bg-surface-2 px-3 text-xs font-bold text-text transition-colors group-hover:border-accent group-hover:bg-surface group-focus-visible:border-accent dark:text-accent">
+                  {type === "tv" ? "TV Shows" : "Movies"}
+                </span>
+              </Link>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+                className="h-3.5 w-3.5 text-text-secondary dark:text-accent/65"
+              >
+                <path d="m9 6 6 6-6 6" />
+              </svg>
+            </li>
+            <li
+              aria-current="page"
+              className="flex min-h-7 min-w-0 flex-1 flex-wrap items-center gap-x-2.5 gap-y-2"
+            >
+              <span className="min-w-0 wrap-anywhere font-semibold leading-6 text-text sm:text-base">
+                {title}
+              </span>
+              {season != null && episode != null ? (
+                <span className="inline-flex h-6 shrink-0 items-center rounded-full bg-accent px-2.5 text-[0.6875rem] font-bold leading-none tabular-nums text-accent-contrast">
+                  <span className="sr-only">
+                    Season {season}, episode {episode}
+                  </span>
+                  <span aria-hidden="true">
+                    S{season} E{episode}
+                  </span>
+                </span>
+              ) : null}
+            </li>
+          </ol>
         </nav>
 
         {/* Player */}

@@ -6,13 +6,14 @@ const STORAGE_KEY = "movienest:ambient-light";
 const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
 
 function readPreference() {
+  let choice: boolean | null = null;
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved === "on" || saved === "off") return saved === "on";
+    if (saved === "on" || saved === "off") choice = saved === "on";
   } catch {
     // The switch still works when browser storage is unavailable.
   }
-  return !window.matchMedia(REDUCED_MOTION).matches;
+  return { choice, reducedMotion: window.matchMedia(REDUCED_MOTION).matches };
 }
 
 export default function AmbientPlayer({
@@ -23,20 +24,28 @@ export default function AmbientPlayer({
   controls: ReactNode;
 }) {
   // Player mounts this after hydration, so the saved choice applies immediately.
-  const [enabled, setEnabled] = useState(readPreference);
+  const [preference, setPreference] = useState(readPreference);
+  const enabled = preference.choice ?? !preference.reducedMotion;
   const viewportRef = useRef<HTMLDivElement>(null);
   const lightRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const preference = window.matchMedia(REDUCED_MOTION);
-    const onPreference = () => setEnabled(readPreference());
+    const motion = window.matchMedia(REDUCED_MOTION);
+    const onPreference = () =>
+      setPreference((current) => ({ ...current, reducedMotion: motion.matches }));
     const onStorage = (event: StorageEvent) => {
-      if (event.key === STORAGE_KEY || event.key === null) onPreference();
+      if (event.key === STORAGE_KEY || event.key === null) {
+        const saved = event.key === null ? null : event.newValue;
+        setPreference({
+          choice: saved === "on" || saved === "off" ? saved === "on" : null,
+          reducedMotion: motion.matches,
+        });
+      }
     };
-    preference.addEventListener("change", onPreference);
+    motion.addEventListener("change", onPreference);
     window.addEventListener("storage", onStorage);
     return () => {
-      preference.removeEventListener("change", onPreference);
+      motion.removeEventListener("change", onPreference);
       window.removeEventListener("storage", onStorage);
     };
   }, []);
@@ -54,7 +63,10 @@ export default function AmbientPlayer({
     let inView = false;
     const update = () => {
       light.dataset.active = String(
-        inView && document.visibilityState === "visible" && !document.fullscreenElement,
+        inView &&
+          document.visibilityState === "visible" &&
+          !document.fullscreenElement &&
+          document.documentElement.classList.contains("dark"),
       );
     };
     const observer = new IntersectionObserver(([entry]) => {
@@ -62,11 +74,17 @@ export default function AmbientPlayer({
       update();
     });
     observer.observe(viewport);
+    const themeObserver = new MutationObserver(update);
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
     document.addEventListener("visibilitychange", update);
     document.addEventListener("fullscreenchange", update);
     return () => {
       light.dataset.active = "false";
       observer.disconnect();
+      themeObserver.disconnect();
       document.removeEventListener("visibilitychange", update);
       document.removeEventListener("fullscreenchange", update);
     };
@@ -74,7 +92,7 @@ export default function AmbientPlayer({
 
   const toggle = () => {
     const next = !enabled;
-    setEnabled(next);
+    setPreference((current) => ({ ...current, choice: next }));
     try {
       localStorage.setItem(STORAGE_KEY, next ? "on" : "off");
     } catch {
@@ -97,9 +115,11 @@ export default function AmbientPlayer({
           role="switch"
           aria-checked={enabled}
           onClick={toggle}
+          title="Ambient light appears in dark mode"
           className="ambient-light-control ml-auto min-h-11 items-center gap-3 rounded-full border border-text-secondary/75 bg-background px-3 py-2 text-xs font-medium text-text-secondary transition-colors hover:bg-surface hover:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         >
           Ambient light
+          <span className="text-[0.625rem] dark:hidden">Dark mode only</span>
           <span
             aria-hidden="true"
             className={`relative h-5 w-9 shrink-0 rounded-full transition-colors ${enabled ? "bg-accent" : "bg-surface-2 ring-1 ring-border"}`}

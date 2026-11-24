@@ -684,9 +684,8 @@ body {
 }
 
 .player-viewport {
-  --ambient-blur: clamp(28px, 5vw, 72px);
+  --ambient-blur: clamp(48px, 7vw, 96px);
   --ambient-spread: calc(var(--ambient-blur) * 3);
-  --ambient-top-spread: 12px;
   position: relative;
   isolation: isolate;
   /* Bound the backdrop to this player so nearby page text is never sampled. */
@@ -709,7 +708,7 @@ body {
     linear-gradient(#000 0 0) content-box,
     linear-gradient(
       to bottom,
-      transparent calc(var(--ambient-spread) - var(--ambient-top-spread)),
+      transparent,
       #000 var(--ambient-spread),
       #000 calc(100% - var(--ambient-spread)),
       transparent
@@ -725,7 +724,7 @@ body {
     linear-gradient(#000 0 0) content-box,
     linear-gradient(
       to bottom,
-      transparent calc(var(--ambient-spread) - var(--ambient-top-spread)),
+      transparent,
       #000 var(--ambient-spread),
       #000 calc(100% - var(--ambient-spread)),
       transparent
@@ -746,13 +745,9 @@ body {
 }
 
 @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
-  .player-ambient[data-active="true"] {
+  .dark .player-ambient[data-active="true"] {
     -webkit-backdrop-filter: blur(var(--ambient-blur)) saturate(1.3);
     backdrop-filter: blur(var(--ambient-blur)) saturate(1.3);
-    opacity: 0.45;
-  }
-
-  .dark .player-ambient[data-active="true"] {
     opacity: 0.75;
   }
 
